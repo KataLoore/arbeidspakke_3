@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <title>Web Design Studio</title>
+    <!--CC BY 4.0 Niels F. Garmann-Johnsen (https://creativecommons.org/licenses/by/4.0/)-->
+    <link rel="stylesheet" href="./css/StudioStyle.css">
+</head>
+
+<body>
+<div class="banner">
+    <canvas id='canvas2' width='90' height='90'></canvas>
+    <script>
+        var ctx = document.getElementById("canvas2").getContext("2d");
+
+        // #layer1
+
+        // #rect846
+        ctx.beginPath();
+        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.lineWidth = 0.229910;
+        ctx.moveTo(43.833502, 2.063954);
+        ctx.lineTo(2.815854, 33.035194);
+        ctx.lineTo(16.028484, 43.011323);
+        ctx.lineTo(3.209628, 52.690843);
+        ctx.lineTo(6.391346, 55.093273);
+        ctx.lineTo(40.156732, 80.588363);
+        ctx.lineTo(40.275062, 51.708473);
+        ctx.bezierCurveTo(31.942878, 45.116943, 23.946614, 39.379974, 15.543760, 33.035194);
+        ctx.lineTo(43.833502, 11.674224);
+        ctx.lineTo(72.118082, 33.030544);
+        ctx.bezierCurveTo(63.703032, 39.134934, 55.826342, 45.354373, 47.946432, 51.282143);
+        ctx.lineTo(47.833772, 71.898453);
+        ctx.lineTo(47.862172, 71.898453);
+        ctx.lineTo(47.824972, 80.939243);
+        ctx.lineTo(85.240772, 52.687733);
+        ctx.lineTo(72.027112, 42.710053);
+        ctx.lineTo(84.845972, 33.030544);
+        ctx.moveTo(44.227282, 21.719604);
+        ctx.lineTo(28.896950, 33.295124);
+        ctx.lineTo(35.260902, 38.099994);
+        ctx.lineTo(44.227282, 31.329864);
+        ctx.lineTo(52.799882, 37.802864);
+        ctx.lineTo(59.163832, 32.997464);
+        ctx.moveTo(65.662662, 47.514923);
+        ctx.lineTo(72.512892, 52.687733);
+        ctx.lineTo(55.579042, 65.474033);
+        ctx.lineTo(55.701002, 55.036943);
+        ctx.moveTo(22.392954, 47.816203);
+        ctx.lineTo(32.569594, 55.500483);
+        ctx.lineTo(32.456421, 65.163983);
+        ctx.lineTo(15.937534, 52.690843);
+        ctx.fill();
+
+    </script>
+    <h2>DesignIT with HTML and CSS</h2>
+</div>
+
+<div class="navbar">
+    <button id="undo"> -- Undo -- </button>
+    <button id="clear"> -- Clear -- </button>
+    <button id="export"> -- Export -- </button>
+</div>
+
+<div class="container">
+    <div class="menu">
+        <h3>Elements</h3>
+    </div>
+
+    <div class="canvas" id="canvas">
+        <h3>Canvas</h3>
+    </div>
+
+    <div class="side-panel">
+        <div class="tab-container">
+            <div class="tab" onclick="openTab(event, 'tab1')">HTML</div>
+            <div class="tab" onclick="openTab(event, 'tab2')">CSS</div>
+            <div class="tab" onclick="openTab(event, 'tab3')">Ref.</div>
+        </div>
+
+        <div id="tab1" class="tab-content">
+            <h3>Tab 1 Content</h3>
+            <pre></pre>
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <h3>Tab 2 Content</h3>
+            <pre></pre>
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <h3>Tab 3 Content</h3>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<script src="./js/StudioScriptTwo.js"></script>
+<script>
+    // Function to open a specific tab
+    function openTab(evt, tabName) {
+        // Hide all tab content
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Remove the active class from all tabs
+        tablinks = document.getElementsByClassName("tab");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active-tab", " ");
+        }
+
+        // Show the current tab content and mark the clicked tab as active
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active-tab";
+    }
+
+    // Open the first tab by default
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab').click();
+    });
+</script>
+</body>
+</html>
