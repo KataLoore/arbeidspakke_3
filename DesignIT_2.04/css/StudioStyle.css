@@ -1,15 +1,64 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     margin: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden; /* Prevent page-level scrolling */
 }
 
-.banner {
-    background-color: #eee;
-    padding: 20px;
-    text-align: center;
+/* Top Navigation Bar */
+.top-navbar {
+    background-color: #04073f;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 40px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-logo {
+    height: 32px;
+    margin-right: 12px;
+    filter: brightness(0) invert(1); /* Makes the logo white */
+}
+
+.brand-text {
+    font-size: 18px;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 0;
+}
+
+.nav-links a,
+.nav-links button {
+    color: #cccccc;
+    text-decoration: none;
+    padding: 12px 16px;
+    display: block;
+    transition: background-color 0.3s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+    background-color: #0a0f5c;
 }
 
 .navbar {
@@ -29,30 +78,99 @@ body {
 .container {
     display: flex;
     flex: 1;
+    overflow: hidden; /* Prevent container overflow */
+}
+
+/* Resizer handles */
+.resizer {
+    width: 4px;
+    background-color: #ddd;
+    cursor: col-resize;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.resizer:hover {
+    background-color: #007acc;
+}
+
+.resizer.active {
+    background-color: #007acc;
 }
 
 .menu, .canvas, .side-panel {
     padding: 10px;
     border: 1px solid #ccc;
+    overflow-y: auto; /* Enable vertical scrolling within panels */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    min-width: 100px; /* Minimum width to prevent panels from becoming too small */
 }
 
 .menu {
-    width: 20%;
+    flex: 0 0 20%; /* Initial width, can be resized */
     background-color: #f9f9f9;
 }
 
+.menu h3, .canvas h3 {
+    margin-top: 0;
+}
+
 .canvas {
-    width: 50%;
+    flex: 1; /* Takes remaining space */
     background-color: #fff;
 }
 
 .side-panel {
-    width: 30%;
+    flex: 0 0 30%; /* Initial width, can be resized */
     background-color: #f1f1f1;
+    position: relative; /* Add relative positioning for absolute children */
 }
 
 .tab-container {
     display: flex;
+    position: relative; /* Enable absolute positioning for copy button */
+}
+
+.tab-controls {
+    display: none; /* Hide the separate tab controls row */
+}
+
+/* Hide copy button when reference tab is active */
+.side-panel:has(#tab3[style*="block"]) .copy-btn {
+    display: none;
+}
+
+.copy-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    min-width: 32px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex: 0 0 auto;
+    margin-right: 2px;
+}
+
+.copy-btn:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.copy-btn:active {
+    background: #e0e0e0;
+}
+
+.copy-btn.copied {
+    background: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
 }
 
 .tab {
@@ -72,10 +190,108 @@ body {
     display: none;
     padding: 10px;
     border-top: 1px solid #ccc;
+    overflow-y: auto; /* Enable vertical scrolling for code content */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    max-height: calc(100vh - 200px); /* Limit height to prevent overflow */
+    word-wrap: break-word; /* Break long words */
+    hyphens: auto; /* Enable automatic hyphenation */
+}
+
+.tab-content pre {
+    white-space: pre-wrap; /* Allow wrapping while preserving formatting */
+    word-wrap: break-word; /* Break long words */
+    margin: 0;
+    overflow-wrap: break-word; /* Modern CSS property for word breaking */
+    overflow-x: hidden; /* Prevent horizontal scrolling in pre elements */
+}
+
+.code-separator {
+    color: #888;
+    font-style: italic;
+    margin: 8px 0;
+    opacity: 0.7;
+    font-size: 0.9em;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 8px;
+    user-select: none; /* Prevent selection of separator */
+}
+
+.tab-content p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden; /* Prevent horizontal scrolling in paragraph elements */
+    white-space: normal; /* Ensure normal text wrapping for tab3 */
+}
+
+/* Reference styling improvements */
+#tab3 p {
+    line-height: 1.6;
+    margin-bottom: 12px;
+    white-space: normal; /* Force normal text wrapping in reference tab */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Style for reference entries when they contain element labels */
+.reference-entry {
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: #f9f9f9;
+    border-left: 3px solid #007acc;
+    border-radius: 4px;
+}
+
+.reference-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.reference-link {
+    color: #007acc;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.reference-link:hover {
+    text-decoration: underline;
 }
 
 .tab-content.active {
     display: block;
+}
+
+/* Copy notification styles */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2d5aa0;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.copy-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.copy-notification.success {
+    background: #28a745;
+}
+
+.copy-notification.error {
+    background: #dc3545;
 }
 
 
