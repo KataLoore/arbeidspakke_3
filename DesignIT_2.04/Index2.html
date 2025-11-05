@@ -174,6 +174,10 @@
                 console.error('Failed to copy: ', err);
                 button.textContent = '❌';
                 button.title = 'Copy failed';
+
+                // Show error notification
+                showNotification('Copy failed!', 'error');
+
                 setTimeout(() => {
                     updateCopyButtonText(tabId);
                 }, 1500);
@@ -190,10 +194,45 @@
             const tabType = tabId === 'tab1' ? 'HTML' : 'CSS';
             button.title = `${tabType} copied!`;
 
+            // Show notification
+            showNotification(`${tabType} copied!`, 'success');
+
             setTimeout(() => {
                 button.classList.remove('copied');
                 updateCopyButtonText(tabId);
             }, 1500);
+        }
+
+        // Function to show notifications
+        function showNotification(message, type = 'success') {
+            // Remove any existing notifications
+            const existingNotification = document.querySelector('.copy-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `copy-notification ${type}`;
+            notification.textContent = message;
+
+            // Add to body
+            document.body.appendChild(notification);
+
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            // Remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 2000);
         }
 
         // Open the first tab by default
