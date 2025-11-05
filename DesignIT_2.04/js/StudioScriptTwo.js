@@ -16,7 +16,8 @@ fetch('./data/components.json')
                 e.dataTransfer.setData('text/html', JSON.stringify({
                     html: item.HTML,
                     css: item.CSS,
-                    reference: item.Reference
+                    reference: item.Reference,
+                    title: item.Title
                 }));
             });
         });
@@ -37,18 +38,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
         history.push({
             canvasContent: canvas.innerHTML,
-            tab1Content: document.getElementById('tab1').querySelector('pre').textContent,
-            tab2Content: document.getElementById('tab2').querySelector('pre').textContent,
-            tab3Content: document.getElementById('tab3').querySelector('p').textContent,
+            tab1Content: document.getElementById('tab1').querySelector('pre').innerHTML,
+            tab2Content: document.getElementById('tab2').querySelector('pre').innerHTML,
+            tab3Content: document.getElementById('tab3').querySelector('p').innerHTML,
         });
 
         // Accumulate content in the canvas
         canvas.innerHTML += data.html + '<br>';
 
         // Accumulate content in each tab
-        document.getElementById('tab1').querySelector('pre').textContent += data.html + "\n";
-        document.getElementById('tab2').querySelector('pre').textContent += data.css + "\n";
-        document.getElementById('tab3').querySelector('p').textContent += data.reference + "\n";
+        const htmlPre = document.getElementById('tab1').querySelector('pre');
+        const cssPre = document.getElementById('tab2').querySelector('pre');
+        
+        // Add separators for visual clarity (but not copied)
+        if (htmlPre.textContent.trim() !== '') {
+            // Add a visual separator in HTML tab
+            const htmlSeparator = document.createElement('div');
+            htmlSeparator.className = 'code-separator';
+            htmlPre.appendChild(htmlSeparator);
+        }
+        
+        // Add HTML content
+        const htmlContent = document.createTextNode(data.html + "\n");
+        htmlPre.appendChild(htmlContent);
+        
+        if (cssPre.textContent.trim() !== '') {
+            // Add a visual separator in CSS tab
+            const cssSeparator = document.createElement('div');
+            cssSeparator.className = 'code-separator';
+            cssPre.appendChild(cssSeparator);
+        }
+        
+        // Add CSS content
+        const cssContent = document.createTextNode(data.css + "\n");
+        cssPre.appendChild(cssContent);
+        
+        // Improved reference formatting with element labels
+        const referenceContainer = document.getElementById('tab3').querySelector('p');
+        const elementTitle = data.title || 'Element'; // Use the actual element title
+        const referenceUrl = data.reference.includes('http') ? data.reference.split(' ').find(word => word.includes('http')) : data.reference;
+        
+        const referenceEntry = document.createElement('div');
+        referenceEntry.className = 'reference-entry';
+        referenceEntry.innerHTML = `
+            <div class="reference-label">${elementTitle}</div>
+            <a href="${referenceUrl}" class="reference-link" target="_blank">${referenceUrl}</a>
+        `;
+        referenceContainer.appendChild(referenceEntry);
 
         // Apply CSS inline for preview in the canvas
         const style = document.createElement('style');
@@ -60,18 +96,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (history.length > 0) {
             const lastState = history.pop();
             canvas.innerHTML = lastState.canvasContent;
-            document.getElementById('tab1').querySelector('pre').textContent = lastState.tab1Content;
-            document.getElementById('tab2').querySelector('pre').textContent = lastState.tab2Content;
-            document.getElementById('tab3').querySelector('p').textContent = lastState.tab3Content;
+            document.getElementById('tab1').querySelector('pre').innerHTML = lastState.tab1Content;
+            document.getElementById('tab2').querySelector('pre').innerHTML = lastState.tab2Content;
+            document.getElementById('tab3').querySelector('p').innerHTML = lastState.tab3Content;
         }
     });
 
     clearButton.addEventListener('click', () => {
         history.push({
             canvasContent: canvas.innerHTML,
-            tab1Content: document.getElementById('tab1').querySelector('pre').textContent,
-            tab2Content: document.getElementById('tab2').querySelector('pre').textContent,
-            tab3Content: document.getElementById('tab3').querySelector('p').textContent,
+            tab1Content: document.getElementById('tab1').querySelector('pre').innerHTML,
+            tab2Content: document.getElementById('tab2').querySelector('pre').innerHTML,
+            tab3Content: document.getElementById('tab3').querySelector('p').innerHTML,
         });
 
         canvas.innerHTML = '<h3>Canvas</h3>';
@@ -129,9 +165,9 @@ ${contentWithoutStyle}
     });
 
     function clearTabs() {
-        document.getElementById('tab1').querySelector('pre').textContent = '';
-        document.getElementById('tab2').querySelector('pre').textContent = '';
-        document.getElementById('tab3').querySelector('p').textContent = '';
+        document.getElementById('tab1').querySelector('pre').innerHTML = '';
+        document.getElementById('tab2').querySelector('pre').innerHTML = '';
+        document.getElementById('tab3').querySelector('p').innerHTML = '';
     }
 });
 
