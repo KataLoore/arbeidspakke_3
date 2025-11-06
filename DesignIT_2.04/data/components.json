@@ -6,9 +6,9 @@
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a "
     },
     {
-        "Title": "Adress",
+        "Title": "Address",
         "HTML": "<p>Contact the author of this page:</p>\n\n<address>\n  <a href=\"mailto:jim@example.com\">jim@example.com</a><br />\n  <a href=\"tel:+14155550132\">+1 (415) 555‑0132</a>\n</address>",
-        "CSS": "/* Adress */\na[href^='mailto']::before {\n  content: '📧 ';\n}\n\na[href^='tel']::before {\n  content: '📞 ';\n}",
+        "CSS": "/* Address */\na[href^='mailto']::before {\n  content: '📧 ';\n}\n\na[href^='tel']::before {\n  content: '📞 ';\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address "
     },
     {
