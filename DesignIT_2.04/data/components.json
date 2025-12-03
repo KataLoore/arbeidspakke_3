@@ -1,242 +1,278 @@
 [
     {
-        "Title": "A (Anchor)",
-        "HTML": "<p>You can reach Michael at:</p>\n\n<ul>\n  <li><a href=\"https://example.com\">Website</a></li>\n  <li><a href=\"mailto:m.bluth@example.com\">Email</a></li>\n  <li><a href=\"tel:+123456789\">Phone</a></li>\n</ul>",
-        "CSS": "/* A (Anchor) */\nli {\n  margin-bottom: 0.5rem;\n}",
+        "Title": "Abbreviation <abbr>",
+        "HTML": "<p>\n  The <abbr title=\"World Health Organization\">WHO</abbr> was founded in 1948.\n</p>",
+        "CSS": "/* Abbreviation or Abbr */ \nabbr[title] {\n  text-decoration: dotted underline;\n  cursor: help;\n}", 
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr"
+    },
+    {
+        "Title": "Anchor <a>",
+        "HTML": "<a href=\"https://example.com\">Visit our website</a>",
+        "CSS": "/* Anchor <a> */\na {\n  color: #0066cc;\n  text-decoration: none;\n}\n\na:hover {\n  text-decoration: underline;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a "
     },
     {
-        "Title": "Address",
-        "HTML": "<p>Contact the author of this page:</p>\n\n<address>\n  <a href=\"mailto:jim@example.com\">jim@example.com</a><br />\n  <a href=\"tel:+14155550132\">+1 (415) 555‑0132</a>\n</address>",
-        "CSS": "/* Address */\na[href^='mailto']::before {\n  content: '📧 ';\n}\n\na[href^='tel']::before {\n  content: '📞 ';\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address "
+        "Title": "Article <article>",
+        "HTML": "<article>\n  <h2>Today's News</h2>\n  <article>\n    <h3>Breaking News</h3>\n    <p>Major development in technology today.</p>\n  </article>\n  <article>\n    <h3>Sports Update</h3>\n    <p>Local team wins championship.</p>\n  </article>\n  <article>\n    <h3>Weather Report</h3>\n    <p>Sunny skies expected this week.</p>\n  </article>\n</article>",
+        "CSS": "/* Article */\narticle {\n  padding: 1rem;\n  margin: 1rem 0;\n  border: 1px solid #ccc;\n  background-color: #f5f5f5;\n}\n\narticle > article {\n  padding: 0.8rem;\n  margin: 0.5rem 0;\n  border-left: 3px solid #007bff;\n  background-color: white;\n}\n\narticle h2 {\n  margin-top: 0;\n  color: #333;\n}\n\narticle h3 {\n  margin-top: 0;\n  color: #007bff;\n  font-size: 1.1rem;\n}\n\narticle p {\n  margin: 0.5rem 0 0 0;\n  color: #666;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article "
     },
     {
-        "Title": "Article",
-        "HTML": "<article class=\"forecast\">\n  <h1>Weather forecast for Seattle</h1>\n  <article class=\"day-forecast\">\n    <h2>03 March 2018</h2>\n    <p>Rain.</p>\n  </article>\n  <article class=\"day-forecast\">\n    <h2>04 March 2018</h2>\n    <p>Periods of rain.</p>\n  </article>\n  <article class=\"day-forecast\">\n    <h2>05 March 2018</h2>\n    <p>Heavy rain.</p>\n  </article>\n</article>",
-        "CSS": "/* Article */\n.forecast {\n  margin: 0;\n  padding: 0.3rem;\n  background-color: #eee;\n}\n\n.forecast > h1,\n.day-forecast {\n  margin: 0.5rem;\n  padding: 0.3rem;\n  font-size: 1.2rem;\n}\n\n.day-forecast {\n  background: right/contain content-box border-box no-repeat\n    url('/img/Rain.png') white;\n}\n\n.day-forecast > h2,\n.day-forecast > p {\n  margin: 0.2rem;\n  font-size: 1rem;\n}",
-        "Reference": "Article. NB you need an 'img' folder for images, and a path to it and the image-file (in the CSS)! Refr.:\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/article "
+        "Title": "Blockquote <blockquote>",
+        "HTML": "<blockquote>\n  <p>\n    The only limit to our realization of tomorrow will be our doubts of today.\n  </p>\n  <footer>— Franklin D. Roosevelt</footer>\n</blockquote>",
+        "CSS": "/* Blockquote or Blockquote */ \nblockquote {\n  border-left: 4px solid #ccc;\n  margin: 1.5rem 10px;\n  padding-left: 10px;\n  color: #666;\n  font-style: italic;\n}\n\nblockquote footer {\n  text-align: right;\n  font-style: normal;\n  color: #999;\n  margin-top: 0.5rem;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote "
     },
     {
-        "Title": "Button",
-        "HTML": "</br>\n<button class=\"favorite styled\" type=\"button\">Add to favorites</button>\n</br>",
-        "CSS": "/* Button */\n.styled {\n  border: 0;\n  line-height: 2.5;\n  padding: 0 20px;\n  font-size: 1rem;\n  text-align: center;\n  color: #fff;\n  text-shadow: 1px 1px 1px #000;\n  border-radius: 10px;\n  background-color: rgba(220, 0, 0, 1);\n  background-image: linear-gradient(\n    to top left,\n    rgba(0, 0, 0, 0.2),\n    rgba(0, 0, 0, 0.2) 30%,\n    rgba(0, 0, 0, 0)\n  );\n  box-shadow:\n    inset 2px 2px 3px rgba(255, 255, 255, 0.6),\n    inset -2px -2px 3px rgba(0, 0, 0, 0.6);\n}\n\n.styled:hover {\n  background-color: rgba(255, 0, 0, 1);\n}\n\n.styled:active {\n  box-shadow:\n    inset -2px -2px 3px rgba(255, 255, 255, 0.6),\n    inset 2px 2px 3px rgba(0, 0, 0, 0.6);\n}",
+        "Title": "Button <button>",
+        "HTML": "<button class=\"btn-primary\" type=\"button\">Primary Button</button>\n<button class=\"btn-secondary\" type=\"button\">Secondary</button>\n<button class=\"btn-outline\" type=\"button\">Outline</button>",
+        "CSS": "/* Button */\nbutton {\n  padding: 0.75rem 1.5rem;\n  font-size: 1rem;\n  font-weight: 500;\n  border-radius: 8px;\n  border: 2px solid transparent;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  margin: 0.25rem;\n}\n\n.btn-primary {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);\n}\n\n.btn-primary:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);\n}\n\n.btn-secondary {\n  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);\n  color: white;\n  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);\n}\n\n.btn-secondary:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);\n}\n\n.btn-outline {\n  background: transparent;\n  color: #667eea;\n  border-color: #667eea;\n}\n\n.btn-outline:hover {\n  background: #667eea;\n  color: white;\n  transform: translateY(-2px);\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button "
     },
     {
-        "Title": "Datalist",
-        "HTML": "<label for=\"ice-cream-choice\">Choose a flavor:</label>\n<input list=\"ice-cream-flavors\" id=\"ice-cream-choice\" name=\"ice-cream-choice\" />\n\n<datalist id=\"ice-cream-flavors\">\n  <option value=\"Chocolate\"></option>\n  <option value=\"Coconut\"></option>\n  <option value=\"Mint\"></option>\n  <option value=\"Strawberry\"></option>\n  <option value=\"Vanilla\"></option>\n</datalist>",
-        "CSS": "/* Datalist */\nlabel {\n  display: block;\n  margin-bottom: 10px;\n}",
+        "Title": "Code <code>",
+        "HTML": "<p>To print a message in JavaScript, use the <code>console.log()</code> method.</p>",
+        "CSS": "/* Code or Code */ \ncode {\n  background-color: #f4f4f4;\n  border: 1px solid #ddd;\n  border-radius: 3px;\n  font-family: 'Courier New', Courier, monospace;\n  padding: 2px 4px;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code "
+    },
+    {
+        "Title": "Colgroup <colgroup>",
+        "HTML": "<table>\n  <colgroup class=\"product-info\">\n    <col span=\"2\" />\n  </colgroup>\n  <colgroup class=\"pricing\">\n    <col span=\"2\" />\n  </colgroup>\n  <tr>\n    <th>Product</th>\n    <th>Description</th>\n    <th>Price</th>\n    <th>Discount</th>\n  </tr>\n  <tr>\n    <td>Laptop</td>\n    <td>15-inch display</td>\n    <td>$999</td>\n    <td>10%</td>\n  </tr>\n  <tr>\n    <td>Mouse</td>\n    <td>Wireless</td>\n    <td>$25</td>\n    <td>5%</td>\n  </tr>\n</table>",
+        "CSS": "/* Colgroup */\ntable {\n  border-collapse: collapse;\n  width: 100%;\n}\n\nth,\ntd {\n  border: 1px solid #ddd;\n  padding: 10px;\n  text-align: left;\n}\n\n.product-info {\n  background-color: #e3f2fd;\n}\n\n.pricing {\n  background-color: #fff3e0;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/colgroup "
+    },
+    {
+        "Title": "Column <col>",
+        "HTML": "<table>\n  <colgroup>\n    <col class=\"col-name\" />\n    <col class=\"col-status\" />\n    <col class=\"col-progress\" />\n  </colgroup>\n  <tr>\n    <th>Task</th>\n    <th>Status</th>\n    <th>Progress</th>\n  </tr>\n  <tr>\n    <td>Design</td>\n    <td>Complete</td>\n    <td class=\"progress-cell\">\n      <progress max=\"100\" value=\"100\">100%</progress>\n      <span class=\"progress-text\">100%</span>\n    </td>\n  </tr>\n  <tr>\n    <td>Development</td>\n    <td>In Progress</td>\n    <td class=\"progress-cell\">\n      <progress max=\"100\" value=\"65\">65%</progress>\n      <span class=\"progress-text\">65%</span>\n    </td>\n  </tr>\n  <tr>\n    <td>Testing</td>\n    <td>Not Started</td>\n    <td class=\"progress-cell\">\n      <progress max=\"100\" value=\"0\">0%</progress>\n      <span class=\"progress-text\">0%</span>\n    </td>\n  </tr>\n</table>",
+        "CSS": "/* Column */\ntable {\n  border-collapse: collapse;\n  width: 100%;\n}\n\nth,\ntd {\n  border: 1px solid #ddd;\n  padding: 10px;\n}\n\n.col-name {\n  background-color: #ffebee;\n  width: 40%;\n}\n\n.col-status {\n  background-color: #e8f5e9;\n  width: 30%;\n}\n\n.col-progress {\n  background-color: #fff9c4;\n  width: 30%;\n}\n\n.progress-cell {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\nprogress {\n  flex: 1;\n  height: 20px;\n}\n\n.progress-text {\n  min-width: 45px;\n  font-weight: bold;\n  color: #333;\n  font-size: 0.9rem;\n}\n\nprogress::-webkit-progress-bar {\n  background-color: #e0e0e0;\n  border-radius: 10px;\n}\n\nprogress::-webkit-progress-value {\n  background: linear-gradient(90deg, #4caf50, #8bc34a);\n  border-radius: 10px;\n  transition: width 0.3s ease;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col "
+    },
+    {
+        "Title": "Datalist <datalist>",
+        "HTML": "<label for=\"choice\">Choose an option:</label>\n<input list=\"options\" id=\"choice\" name=\"choice\" placeholder=\"Type to search...\" />\n\n<datalist id=\"options\">\n  <option value=\"Option 1\"></option>\n  <option value=\"Option 2\"></option>\n  <option value=\"Option 3\"></option>\n  <option value=\"Option 4\"></option>\n  <option value=\"Option 5\"></option>\n</datalist>",
+        "CSS": "/* Datalist */\nlabel {\n  display: block;\n  margin-bottom: 10px;\n  font-weight: 500;\n}\n\ninput {\n  padding: 8px 12px;\n  border: 2px solid #ddd;\n  border-radius: 5px;\n  font-size: 1rem;\n  width: 250px;\n  transition: border-color 0.3s ease;\n}\n\ninput:focus {\n  outline: none;\n  border-color: #667eea;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist "
     },
     {
-        "Title": "Details",
+        "Title": "Deleted Text <del>",
+        "HTML": "<p>The meeting is scheduled for <del>Tuesday</del> <ins>Wednesday</ins> at 3 PM.</p>",
+        "CSS": "/* Deleted Text or Del */\ndel {\n  text-decoration: line-through;\n  background-color: #fbb;\n  color: #555;\n}\n\nins {\n  text-decoration: none;\n  background-color: #d4fcbc;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/del"
+    },
+    {
+        "Title": "Details <details>",
         "HTML": "<details>\n  <summary>Details</summary>\n  Something small enough to escape casual notice.\n</details>",
         "CSS": "/* Details */\ndetails {\n  border: 1px solid #aaa;\n  border-radius: 4px;\n  padding: 0.5em 0.5em 0;\n}\n\nsummary {\n  font-weight: bold;\n  margin: -0.5em -0.5em 0;\n  padding: 0.5em;\n}\n\ndetails[open] {\n  padding: 0.5em;\n}\n\ndetails[open] summary {\n  border-bottom: 1px solid #aaa;\n  margin-bottom: 0.5em;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details "
     },
     {
-        "Title": "Fieldset",
-        "HTML": "</br>\n<form>\n  <fieldset>\n    <legend>Choose your favorite monster</legend>\n\n    <input type=\"radio\" id=\"kraken\" name=\"monster\" value=\"K\" />\n    <label for=\"kraken\">Kraken</label><br />\n\n    <input type=\"radio\" id=\"sasquatch\" name=\"monster\" value=\"S\" />\n    <label for=\"sasquatch\">Sasquatch</label><br />\n\n    <input type=\"radio\" id=\"mothman\" name=\"monster\" value=\"M\" />\n    <label for=\"mothman\">Mothman</label>\n  </fieldset>\n</form>\n</br>",
-        "CSS": "/* Fieldset */\nlegend {\n  background-color: #000;\n  color: #fff;\n  padding: 3px 6px;\n}\n\ninput {\n  margin: 0.4rem;\n}",
+        "Title": "Fieldset <fieldset>",
+        "HTML": "<form>\n  <fieldset>\n    <legend>Personal Information</legend>\n    <label for=\"name\">Name:</label>\n    <input type=\"text\" id=\"name\" name=\"name\" />\n    <label for=\"email\">Email:</label>\n    <input type=\"email\" id=\"email\" name=\"email\" />\n  </fieldset>\n</form>",
+        "CSS": "/* Fieldset */\nfieldset {\n  border: 2px solid #ccc;\n  border-radius: 4px;\n  padding: 1rem;\n  margin: 1rem 0;\n}\n\nlegend {\n  background-color: #333;\n  color: #fff;\n  padding: 4px 8px;\n  border-radius: 3px;\n}\n\nlabel {\n  display: block;\n  margin-top: 0.5rem;\n}\n\ninput {\n  display: block;\n  margin-bottom: 0.5rem;\n  padding: 0.3rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset "
     },
     {
-        "Title": "Footer",
-        "HTML": "<article>\n  <h1>How to be a wizard</h1>\n  <ol>\n    <li>Grow a long, majestic beard.</li>\n    <li>Wear a tall, pointed hat.</li>\n    <li>Have I mentioned the beard?</li>\n  </ol>\n  <footer>\n    <p>© 2018 Gandalf</p>\n  </footer>\n</article>",
-        "CSS": "/* Footer */\narticle {\n  min-height: 100%;\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n}\n\nfooter {\n  display: flex;\n  justify-content: center;\n  padding: 5px;\n  background-color: #45a1ff;\n  color: #fff;\n}",
-        "Reference": "Footer NB The footer will appear below the canvas: \nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer "
+        "Title": "Footer <footer>",
+        "HTML": "<footer>\n  <p>© 2024 Company Name. All rights reserved.</p>\n  <p>Contact: info@company.com</p>\n</footer>",
+        "CSS": "/* Footer */\nfooter {\n  background-color: #fff;\n  color: #333;\n  padding: 1rem;\n  text-align: center;\n  margin-top: 2rem;\n  border-top: 1px solid #ddd;\n}\n\nfooter p {\n  margin: 0.5rem 0;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer "
     },
     {
-        "Title": "Form",
-        "HTML": "<form action=\"\" method=\"get\" class=\"form-example\">\n  <div class=\"form-example\">\n    <label for=\"name\">Enter your name: </label>\n    <input type=\"text\" name=\"name\" id=\"name\" required />\n  </div>\n  <div class=\"form-example\">\n    <label for=\"email\">Enter your email: </label>\n    <input type=\"email\" name=\"email\" id=\"email\" required />\n  </div>\n  <div class=\"form-example\">\n    <input type=\"submit\" value=\"Subscribe!\" />\n  </div>\n</form>",
-        "CSS": "/* Form */\nform.form-example {\n  display: table;\n}\n\ndiv.form-example {\n  display: table-row;\n}\n\nlabel,\ninput {\n  display: table-cell;\n  margin-bottom: 10px;\n}\n\nlabel {\n  padding-right: 10px;\n}",
+        "Title": "Form <form>",
+        "HTML": "<form action=\"\" method=\"post\" class=\"form-example\">\n  <div class=\"form-example\">\n    Username: <input type=\"text\" name=\"username\" id=\"username\" required />\n  </div>\n  <div class=\"form-example\">\n    Password: <input type=\"password\" name=\"password\" id=\"password\" required />\n  </div>\n  <div class=\"form-example\">\n    <input type=\"submit\" value=\"Login\" />\n  </div>\n</form>",
+        "CSS": "/* Form */\nform.form-example {\n  display: table;\n}\n\ndiv.form-example {\n  display: table-row;\n}\n\ninput {\n  display: table-cell;\n  margin-bottom: 10px;\n  margin-left: 10px;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form "
     },
     {
-        "Title": "Header",
-        "HTML": "<header>\n  <a class=\"logo\" href=\"#\">Cute Puppies Express!</a>\n</header>\n\n<article>\n  <header>\n    <h1>Beagles</h1>\n    <time>08.12.2014</time>\n  </header>\n  <p>I love beagles <em>so</em> much! Like, really, a lot. They’re adorable and their ears are so, so snugly soft!</p>\n</article>",
-        "CSS": "/* Header */\n.logo {\n  background: left / cover url('/img/puppy-header-logo.jpg');\n  display: flex;\n  height: 120px;\n  align-items: center;\n  justify-content: center;\n  font:\n    bold calc(1em + 2 * (100vw - 120px) / 100) 'Dancing Script',\n    fantasy;\n  color: #ff0083;\n  text-shadow: #000 2px 2px 0.2rem;\n}\n\nheader > h1 {\n  margin-bottom: 0;\n}\n\nheader > time {\n  font: italic 0.7rem sans-serif;\n}",
-        "Reference": "Header. NB you need an 'img' folder for the image, and a path to it and the image-file (in the CSS)! Refr. and image source: \nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/header "
+        "Title": "Header <header>",
+        "HTML": "<header>\n  <div class=\"logo-container\">\n    <h1 class=\"logo\">Company Name</h1>\n    <nav>\n      <a href=\"#\">Home</a>\n      <a href=\"#\">About</a>\n      <a href=\"#\">Services</a>\n      <a href=\"#\">Contact</a>\n    </nav>\n  </div>\n</header>",
+        "CSS": "/* Header */\nheader {\n  background-color: #fff;\n  color: #333;\n  padding: 1rem;\n  border-bottom: 1px solid #ddd;\n}\n\n.logo-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n\n.logo {\n  margin: 0;\n  font-size: 1.5rem;\n  font-weight: bold;\n  color: #333;\n}\n\nheader nav {\n  display: flex;\n  gap: 1.5rem;\n}\n\nheader nav a {\n  color: #333;\n  text-decoration: none;\n  font-weight: 500;\n  transition: color 0.3s ease;\n}\n\nheader nav a:hover {\n  color: #666;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header "
     },
     {
-        "Title": "Header Group",
-        "HTML": "<hgroup>\n  <h1>Frankenstein</h1>\n  <p>Or: The Modern Prometheus</p>\n</hgroup>\n<p>\n  Victor Frankenstein, a Swiss scientist, has a great ambition: to create intelligent life. But when his creature first\n  stirs, he realizes he has made a monster. A monster which, abandoned by his master and shunned by everyone who sees\n  it, follows Dr Frankenstein to the very ends of the earth.\n</p>",
-        "CSS": "/* H Group or Header Group */ \nhgroup {\n  text-align: right;\n  padding-right: 16px;\n  border-right: 10px solid #00c8d7;\n}\n\nhgroup h1 {\n  margin-bottom: 0;\n}\n\nhgroup p {\n  margin: 0;\n  font-weight: bold;\n}",
+        "Title": "Header Group <hgroup>",
+        "HTML": "<article>\n  <hgroup>\n    <h1>Annual Report 2024</h1>\n    <p>Financial Overview and Key Metrics</p>\n  </hgroup>\n  <p>\n    This year has shown significant growth across all sectors. Our strategic initiatives have led to improved customer satisfaction and operational efficiency.\n  </p>\n</article>",
+        "CSS": "/* Header Group */\nhgroup {\n  margin-bottom: 1.5rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 2px solid #ddd;\n}\n\nhgroup h1 {\n  margin: 0 0 0.5rem 0;\n  color: #333;\n  font-size: 2rem;\n  font-weight: bold;\n}\n\nhgroup p {\n  margin: 0;\n  color: #666;\n  font-size: 1.1rem;\n  font-weight: normal;\n}\n\narticle {\n  max-width: 800px;\n  margin: 2rem auto;\n  padding: 1.5rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hgroup"
     },
     {
-        "Title": "Horizontal rule",
-        "HTML": "<p>§1: The first rule of Fight Club is: You do not talk about Fight Club.</p>\n\n<hr />\n\n<p>§2: The second rule of Fight Club is: Always bring cupcakes.</p>",
-        "CSS": "/* Horizontal rule or Hr */\nhr {\n  border: none;\n  border-top: 3px double #333;\n  color: #333;\n  overflow: visible;\n  text-align: center;\n  height: 5px;\n}\n\nhr::after {\n  background: #fff;\n  content: '§';\n  padding: 0 4px;\n  position: relative;\n  top: -13px;\n}",
+        "Title": "Horizontal rule <hr>",
+        "HTML": "<section>\n  <h2>Introduction</h2>\n  <p>This is the first section of content.</p>\n  \n  <hr />\n  \n  <h2>Main Content</h2>\n  <p>This is the second section of content.</p>\n</section>",
+        "CSS": "/* Horizontal rule */\nhr {\n  border: none;\n  border-top: 1px solid #ddd;\n  margin: 2rem 0;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr"
     },
     {
-        "Title": "Iframe",
-        "HTML": "<iframe\n  id=\"inlineFrameExample\"\n  title=\"Inline Frame Example\"\n  width=\"300\"\n  height=\"200\"\n  src=\"https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik\">\n</iframe>",
-        "CSS": "/* Iframe */\niframe {\n  border: 1px solid black;\n  width: 100%; /* takes precedence over the width set with the HTML width attribute */\n}",
+        "Title": "Iframe <iframe>",
+        "HTML": "<iframe\n  id=\"mapFrame\"\n  title=\"Interactive Map\"\n  src=\"https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik\">\n</iframe>",
+        "CSS": "/* Iframe */\niframe {\n  width: 100%;\n  height: 400px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe "
     },
     {
-        "Title": "Input",
-        "HTML": "<label for=\"name\">Name (4 to 8 characters):</label>\n\n<input type=\"text\" id=\"name\" name=\"name\" required minlength=\"4\" maxlength=\"8\" size=\"10\" />",
-        "CSS": "/* Input  */\nlabel {\n  display: block;\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}\n\ninput,\nlabel {\n  margin: 0.4rem 0;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input "
+        "Title": "Input type text",
+        "HTML": "<label>Text:</label>\n<input type=\"text\" placeholder=\"Enter text\" />",
+        "CSS": "/* Input type text */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"text\"] {\n  display: block;\n  padding: 0.25rem 0.5rem;\n  font-size: 1rem;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text"
+    },
+    {
+        "Title": "Input type number",
+        "HTML": "<label>Number:</label>\n<input type=\"number\" min=\"0\" max=\"100\" placeholder=\"0-100\" />",
+        "CSS": "/* Input type number */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"number\"] {\n  display: block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number"
+    },
+    {
+        "Title": "Input type date",
+        "HTML": "<label>Date:</label>\n<input type=\"date\" />",
+        "CSS": "/* Input type date */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"date\"] {\n  display: block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  cursor: pointer;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date"
+    },
+    {
+        "Title": "Input type time",
+        "HTML": "<label>Time:</label>\n<input type=\"time\" />",
+        "CSS": "/* Input type time */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"time\"] {\n  display: block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  cursor: pointer;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time"
+    },
+    {
+        "Title": "Input type color",
+        "HTML": "<label>Color:</label>\n<input type=\"color\" value=\"#667eea\" />",
+        "CSS": "/* Input type color */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"color\"] {\n  display: block;\n  padding: 0.05rem;\n  width: 50px;\n  height: 25px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color"
+    },
+    {
+        "Title": "Input type range",
+        "HTML": "<label>Range:</label>\n<input type=\"range\" id=\"rangeInput\" min=\"0\" max=\"100\" value=\"50\" oninput=\"document.getElementById('rangeValue').textContent = this.value\" /> <span id=\"rangeValue\">50</span>",
+        "CSS": "/* Input type range */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"range\"] {\n  display: inline-block;\n  cursor: pointer;\n  vertical-align: middle;\n}\n\n#rangeValue {\n  font-weight: bold;\n  min-width: 3ch;\n  display: inline-block;\n  font-size: 1rem;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"
+    },
+    {
+        "Title": "Input type file",
+        "HTML": "<label>File:</label>\n<input type=\"file\" />",
+        "CSS": "/* Input type file */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n  display: block;\n  margin-bottom: 0.25rem;\n}\n\ninput[type=\"file\"] {\n  display: block;\n  font-size: 1rem;\n  cursor: pointer;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file"
+    },
+    {
+        "Title": "Input type checkbox",
+        "HTML": "<label>Checkbox:</label>\n<input type=\"checkbox\" id=\"check1\" /> <label for=\"check1\">Option 1</label>\n<input type=\"checkbox\" id=\"check2\" /> <label for=\"check2\">Option 2</label>\n<input type=\"checkbox\" id=\"check3\" /> <label for=\"check3\">Option 3</label>",
+        "CSS": "/* Input type checkbox */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n}\n\ninput[type=\"checkbox\"] {\n  cursor: pointer;\n}\n\ninput[type=\"checkbox\"] + label {\n  cursor: pointer;\n  font-weight: normal;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox"
+    },
+    {
+        "Title": "Input type radio",
+        "HTML": "<label>Radio:</label>\n<input type=\"radio\" id=\"radio1\" name=\"option\" value=\"1\" /> <label for=\"radio1\">Option 1</label>\n<input type=\"radio\" id=\"radio2\" name=\"option\" value=\"2\" /> <label for=\"radio2\">Option 2</label>\n<input type=\"radio\" id=\"radio3\" name=\"option\" value=\"3\" /> <label for=\"radio3\">Option 3</label>",
+        "CSS": "/* Input type radio */\nlabel {\n  font-weight: 600;\n  color: #2c3e50;\n  font-size: 0.9rem;\n}\n\ninput[type=\"radio\"] {\n  cursor: pointer;\n}\n\ninput[type=\"radio\"] + label {\n  cursor: pointer;\n  font-weight: normal;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio"
     },
     {
         "Title": "Input type datetime local",
         "HTML": "<label for=\"meeting-time\">Choose a time for your appointment:</label>\n\n<input\n  type=\"datetime-local\"\n  id=\"meeting-time\"\n  name=\"meeting-time\"\n  value=\"2018-06-12T19:30\"\n  min=\"2018-06-07T00:00\"\n  max=\"2018-06-14T00:00\" />",
-        "CSS": "/* Input type=\"datetime-local\" */ \nlabel {\n  display: block;\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}\n\ninput,\nlabel {\n  margin: 0.4rem 0;\n}",
+        "CSS": "/* Input type=\"datetime-local\" */ \ninput[type=\"datetime-local\"] {\n  display: inline-block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  vertical-align: middle;\n}\n\nlabel[for=\"meeting-time\"] {\n  display: block;\n  margin-bottom: 0.4rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local"
     },
     {
         "Title": "Input type email",
         "HTML": "<label for=\"email\">Enter your example.com email:</label>\n\n<input type=\"email\" id=\"email\" pattern=\".+@example\\.com\" size=\"30\" required />",
-        "CSS": "/* Input type=\"email\" */ \nlabel {\n  display: block;\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}\n\ninput,\nlabel {\n  margin: 0.4rem 0;\n}",
+        "CSS": "/* Input type=\"email\" */ \ninput[type=\"email\"] {\n  display: inline-block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  vertical-align: middle;\n}\n\nlabel[for=\"email\"] {\n  display: block;\n  margin-bottom: 0.4rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email "
     },
     {
         "Title": "Input type password",
         "HTML": "<div>\n  <label for=\"username\">Username:</label>\n  <input type=\"text\" id=\"username\" name=\"username\" />\n</div>\n\n<div>\n  <label for=\"pass\">Password (8 characters minimum):</label>\n  <input type=\"password\" id=\"pass\" name=\"password\" minlength=\"8\" required />\n</div>\n\n<input type=\"submit\" value=\"Sign in\" /> ",
-        "CSS": "/* Input type=\"password\" */ \nlabel {\n  display: block;\n}\n\ninput[type='submit'],\nlabel {\n  margin-top: 1rem;\n}",
+        "CSS": "/* Input type=\"password\" */ \ninput[type=\"password\"],\ninput[name=\"username\"] {\n  display: inline-block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  vertical-align: middle;\n}\n\nlabel[for=\"username\"],\nlabel[for=\"pass\"] {\n  display: block;\n  margin-top: 0.5rem;\n}\n\ninput[type='submit'] {\n  margin-top: 1rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password"
     },
     {
         "Title": "Input type search",
         "HTML": "<label for=\"site-search\">Search the site:</label>\n<input type=\"search\" id=\"site-search\" name=\"q\" />\n\n<button>Search</button>",
-        "CSS": "/* Input type=\"search\" */ \nlabel {\n  display: block;\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}\n\ninput,\nlabel {\n  margin: 0.4rem 0;\n}",
+        "CSS": "/* Input type=\"search\" */ \ninput[type=\"search\"] {\n  display: inline-block;\n  padding: 0.15rem 0.4rem;\n  font-size: 1rem;\n  vertical-align: middle;\n}\n\nlabel[for=\"site-search\"] {\n  display: block;\n  margin-bottom: 0.4rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/search "
     },
     {
-        "Title": "Keyboard Input",
-        "HTML": "<p>Please press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to re-render an MDN page.</p>",
+        "Title": "Keyboard Input <kbd>",
+        "HTML": "<p>Press <kbd>Ctrl</kbd> + <kbd>C</kbd>  to copy an element.</p>",
         "CSS": "/* Keyboard Input or Kbd */ \nkbd {\n  background-color: #eee;\n  border-radius: 3px;\n  border: 1px solid #b4b4b4;\n  box-shadow:\n    0 1px 1px rgba(0, 0, 0, 0.2),\n    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;\n  color: #333;\n  display: inline-block;\n  font-size: 0.85em;\n  font-weight: 700;\n  line-height: 1;\n  padding: 2px 4px;\n  white-space: nowrap;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd"
     },
     {
-        "Title": "Label",
-        "HTML": "<div class=\"preference\">\n  <label for=\"cheese\">Do you like cheese?</label>\n  <input type=\"checkbox\" name=\"cheese\" id=\"cheese\" />\n</div>\n\n<div class=\"preference\">\n  <label for=\"peas\">Do you like peas?</label>\n  <input type=\"checkbox\" name=\"peas\" id=\"peas\" />\n</div>",
-        "CSS": "/* Label */ \n.preference {\n  display: flex;\n  justify-content: space-between;\n  width: 60%;\n  margin: 0.5rem;\n}",
+        "Title": "Label <label>",
+        "HTML": "<label for=\"username\">Username:</label>\n<input type=\"text\" id=\"username\" name=\"username\" />",
+        "CSS": "/* Label */ \nlabel {\n  display: block;\n  margin-bottom: 0.5rem;\n  font-weight: 500;\n}\n\ninput {\n  padding: 0.5rem;\n  font-size: 1rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label"
     },
     {
-        "Title": "List Item",
-        "HTML": "<p>Apollo astronauts:</p>\n\n<ul>\n  <li>Neil Armstrong</li>\n  <li>Alan Bean</li>\n  <li>Peter Conrad</li>\n  <li>Edgar Mitchell</li>\n  <li>Alan Shepard</li>\n</ul>",
-        "CSS": "/* List Item og Li */\np,\nli {\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}\n\np {\n  font-weight: bold;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li"
-    },
-    {
-        "Title": "Nav (Crumbs)",
-        "HTML": "<nav class=\"crumbs\">\n  <ol>\n    <li class=\"crumb\"><a href=\"#\">Bikes</a></li>\n    <li class=\"crumb\"><a href=\"#\">BMX</a></li>\n    <li class=\"crumb\">Jump Bike 3000</li>\n  </ol>\n</nav>\n\n<h1>Jump Bike 3000</h1>\n<p>\n  This BMX bike is a solid step into the pro world. It looks as legit as it rides and is built to polish your skills.\n</p>",
-        "CSS": "/* Nav (Crumbs) */\nnav {\n  border-bottom: 1px solid black;\n}\n\n.crumbs ol {\n  list-style-type: none;\n  padding-left: 0;\n}\n\n.crumb {\n  display: inline-block;\n}\n\n.crumb a::after {\n  display: inline-block;\n  color: #000;\n  content: '>';\n  font-size: 80%;\n  font-weight: bold;\n  padding: 0 3px;\n}",
+        "Title": "Navigation section <nav>",
+        "HTML": "<nav>\n  <a href=\"#home\">Home</a>\n  <a href=\"#about\">About</a>\n  <a href=\"#services\">Services</a>\n  <a href=\"#contact\">Contact</a>\n</nav>",
+        "CSS": "/* Nav */\nnav {\n  display: flex;\n  gap: 1.5rem;\n  padding: 1rem;\n  background-color: #f5f5f5;\n}\n\nnav a {\n  color: #333;\n  text-decoration: none;\n  font-weight: 500;\n  transition: color 0.3s;\n}\n\nnav a:hover {\n  color: #667eea;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav "
     },
     {
-        "Title": "Option Group",
-        "HTML": "<label for=\"dino-select\">Choose a dinosaur:</label>\n<select id=\"dino-select\">\n  <optgroup label=\"Theropods\">\n    <option>Tyrannosaurus</option>\n    <option>Velociraptor</option>\n    <option>Deinonychus</option>\n  </optgroup>\n  <optgroup label=\"Sauropods\">\n    <option>Diplodocus</option>\n    <option>Saltasaurus</option>\n    <option>Apatosaurus</option>\n  </optgroup>\n</select>",
-        "CSS": "/* Option group or Optgroup */ \nlabel {\n  display: block;\n  margin-bottom: 10px;\n}",
+        "Title": "Option Group <optgroup>",
+        "HTML": "<label for=\"item-select\">Choose between items in two categories:</label>\n<select id=\"item-select\">\n  <optgroup label=\"Category 1\">\n    <option>Item 1</option>\n    <option>Item 2</option>\n    <option>Item 3</option>\n  </optgroup>\n  <optgroup label=\"Category 2\">\n    <option>Item 1</option>\n    <option>Item 2</option>\n    <option>Item 3</option>\n  </optgroup>\n</select>",
+        "CSS": "/* Option group or Optgroup */ \nlabel {\n  display: block;\n  margin-bottom: 0.5rem;\n  font-weight: 500;\n}\n\nselect {\n  padding: 0.5rem;\n  font-size: 1rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup"
     },
     {
-        "Title": "Ordered list",
-        "HTML": "<ol>\n  <li>Mix flour, baking powder, sugar, and salt.</li>\n  <li>In another bowl, mix eggs, milk, and oil.</li>\n  <li>Stir both mixtures together.</li>\n  <li>Fill muffin tray 3/4 full.</li>\n  <li>Bake for 20 minutes.</li>\n</ol>",
-        "CSS": "/* Ordered list or Ol */ \nli {\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n  margin-bottom: 0.5rem;\n}",
+        "Title": "List ordered <ol>",
+        "HTML": "<ol>\n  <li>First item</li>\n  <li>Second item</li>\n  <li>Third item</li>\n</ol>",
+        "CSS": "/* Ordered list */\nol {\n  padding-left: 1.5rem;\n  margin: 1rem 0;\n}\n\nol li {\n  margin-bottom: 0.5rem;\n  line-height: 1.5;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol"
     },
     {
-        "Title": "Pattern",
-        "HTML": "<label for=\"username\">Username: (3-16 characters)</label>\n<input id=\"username\" name=\"username\" type=\"text\" value=\"Sasha\" pattern=\"\\w{3,16}\" required />\n\n<label for=\"pin\">PIN: (4 digits)</label>\n<input id=\"pin\" name=\"pin\" type=\"password\" pattern=\"\\d{4,4}\" required />",
-        "CSS": "/* Pattern */\nlabel {\n  display: block;\n  margin-top: 1em;\n}\n\ninput:valid {\n  background-color: palegreen;\n}\n\ninput:invalid {\n  background-color: lightpink;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern "
+        "Title": "List unordered <ul>",
+        "HTML": "<ul>\n  <li>First item</li>\n  <li>Second item</li>\n  <li>Third item</li>\n</ul>",
+        "CSS": "/* Unordered list */\nul {\n  padding-left: 1.5rem;\n  margin: 1rem 0;\n}\n\nul li {\n  margin-bottom: 0.5rem;\n  line-height: 1.5;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"
     },
     {
-        "Title": "Progress",
-        "HTML": "<label for=\"file\">File progress:</label>\n\n<progress id=\"file\" max=\"100\" value=\"70\">70%</progress>",
+        "Title": "Progress <progress>",
+        "HTML": "<label for=\"file\">Progress Bar:</label>\n\n<progress id=\"file\" max=\"100\" value=\"70\">70%</progress>",
         "CSS": "/* Progress */\nlabel {\n  padding-right: 10px;\n  font-size: 1rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress "
     },
     {
-        "Title": "Ruby Fallback Parenthesis",
-        "HTML": "<ruby> 漢 <rp>(</rp><rt>kan</rt><rp>)</rp> 字 <rp>(</rp><rt>ji</rt><rp>)</rp> </ruby>",
-        "CSS": "/* Ruby Fallback Parenthesis or Rp */ \nruby {\n  font-size: 2em;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rp"
-    },
-    {
-        "Title": "Select",
-        "HTML": "</br>\n<label for=\"pet-select\">Choose a pet:</label>\n\n<select name=\"pets\" id=\"pet-select\">\n  <option value=\"\">--Please choose an option--</option>\n  <option value=\"dog\">Dog</option>\n  <option value=\"cat\">Cat</option>\n  <option value=\"hamster\">Hamster</option>\n  <option value=\"parrot\">Parrot</option>\n  <option value=\"spider\">Spider</option>\n  <option value=\"goldfish\">Goldfish</option>\n</select>\n</br>",
+        "Title": "Select <select>",
+        "HTML": "<label for=\"select-example\">Choose an option:</label>\n\n<select name=\"options\" id=\"select-example\">\n  <option value=\"\">--Please choose an option--</option>\n  <option value=\"option1\">Option 1</option>\n  <option value=\"option2\">Option 2</option>\n  <option value=\"option3\">Option 3</option>\n </select>",
         "CSS": "/* Select */\nlabel {\n  font-family: sans-serif;\n  font-size: 1rem;\n  padding-right: 10px;\n}\n\nselect {\n  font-size: 0.9rem;\n  padding: 2px 5px;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select "
     },
     {
-        "Title": "Source",
-        "HTML": "<video controls width=\"250\" height=\"200\" muted>\n  <source src=\"/media/cc0-videos/flower.webm\" type=\"video/webm\" />\n  <source src=\"/media/cc0-videos/flower.mp4\" type=\"video/mp4\" />\n  Download the\n  <a href=\"/media/cc0-videos/flower.webm\">WEBM</a>\n  or\n  <a href=\"/media/cc0-videos/flower.mp4\">MP4</a>\n  video.\n</video>",
-        "CSS": "{}",
-        "Reference": "Source NB source-media (video-file) not integrated: \nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/source "
+        "Title": "Audio <audio>",
+        "HTML": "<audio controls>\n  <source src=\"https://www.w3schools.com/html/horse.ogg\" type=\"audio/ogg\">\n  <source src=\"https://www.w3schools.com/html/horse.mp3\" type=\"audio/mpeg\">\n  Your browser does not support the audio element.\n</audio>",
+        "CSS": "/* Audio */\naudio {\n  width: 100%;\n  max-width: 400px;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio"
     },
     {
-        "Title": "Subscript",
-        "HTML": "<p>\n  Almost every developer's favorite molecule is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, also known as\n  \"caffeine.\"\n</p>",
-        "CSS": "/* Subscript or Sub */ \np {\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}",
+        "Title": "Picture <picture>",
+        "HTML": "<picture>\n  <source media=\"(min-width: 650px)\" srcset=\"https://www.w3schools.com/tags/img_food.jpg\">\n  <source media=\"(min-width: 465px)\" srcset=\"https://www.w3schools.com/tags/img_car.jpg\">\n  <img src=\"https://www.w3schools.com/tags/img_girl.jpg\" alt=\"Responsive image example\">\n</picture>",
+        "CSS": "/* Picture */\npicture {\n  display: block;\n}\n\npicture img {\n  max-width: 100%;\n  height: auto;\n  border: 2px solid #ddd;\n  border-radius: 4px;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+    },
+    {
+        "Title": "Video <video>",
+        "HTML": "<video width=\"320\" height=\"240\" controls>\n  <source src=\"https://www.w3schools.com/html/movie.mp4\" type=\"video/mp4\">\n  <source src=\"https://www.w3schools.com/html/movie.ogg\" type=\"video/ogg\">\n  Your browser does not support the video tag.\n</video>",
+        "CSS": "/* Video */\nvideo {\n  max-width: 100%;\n  height: auto;\n  border: 2px solid #ddd;\n  border-radius: 4px;\n}",
+        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video"
+    },
+    {
+        "Title": "Subscript <sub>",
+        "HTML": "H<sub>2</sub>O is the chemical formula for water.",
+        "CSS": "/* Subscript or Sub */ \nsub {\n  font-size: 0.8em;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub"
     },
     {
-        "Title": "Summary",
-        "HTML": "<details>\n  <summary>I have keys but no doors. I have space but no room. You can enter but can’t leave. What am I?</summary>\n  A keyboard.\n</details>",
-        "CSS": "/* Summary */\ndetails {\n  border: 1px solid #aaa;\n  border-radius: 4px;\n  padding: 0.5em 0.5em 0;\n}\n\nsummary {\n  font-weight: bold;\n  margin: -0.5em -0.5em 0;\n  padding: 0.5em;\n}\n\ndetails[open] {\n  padding: 0.5em;\n}\n\ndetails[open] summary {\n  border-bottom: 1px solid #aaa;\n  margin-bottom: 0.5em;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary "
-    },
-    {
-        "Title": "Superscript",
-        "HTML": "<p>The <em>Pythagorean theorem</em> is often expressed as the following equation:</p>\n\n<p>\n  <var>a<sup>2</sup></var> + <var>b<sup>2</sup></var> = <var>c<sup>2</sup></var>\n</p>",
-        "CSS": "/* Superscript or Sup */ \np {\n  font:\n    1rem 'Fira Sans',\n    sans-serif;\n}",
+        "Title": "Superscript <sup>",
+        "HTML": "Einstein's famous equation: E = mc<sup>2</sup>",
+        "CSS": "/* Superscript or Sup */ \nsup {\n  font-size: 0.8em;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sup"
     },
     {
-        "Title": "SVG Circle",
-        "HTML": "<svg width=\"100\" height=\"100\">\n  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" />\n</svg>\n",
-        "CSS": "{}",
-        "Reference": "https://www.w3schools.com/html/html5_svg.asp "
-    },
-    {
-        "Title": "SVG Rectangle",
-        "HTML": "<svg width=\"400\" height=\"120\">\n  <rect x=\"10\" y=\"10\" width=\"200\" height=\"100\" stroke=\"red\" stroke-width=\"6\" fill=\"blue\" />\n</svg>",
-        "CSS": "{}",
-        "Reference": "https://www.w3schools.com/html/html5_svg.asp "
-    },
-    {
-        "Title": "SVG Rectangle with Opacity and Rounded Corners",
-        "HTML": "<svg width=\"400\" height=\"180\">\n  <rect x=\"50\" y=\"20\" rx=\"20\" ry=\"20\" width=\"150\" height=\"150\"\n  style=\"fill:red;stroke:black;stroke-width:5;opacity:0.5\" />\n</svg>",
-        "CSS": "{}",
-        "Reference": "https://www.w3schools.com/html/html5_svg.asp "
-    },
-    {
-        "Title": "SVG Star",
-        "HTML": "<svg width=\"300\" height=\"200\">\n  <polygon points=\"100,10 40,198 190,78 10,78 160,198\"\n  style=\"fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;\" />\n</svg>",
-        "CSS": "{}",
-        "Reference": "https://www.w3schools.com/html/html5_svg.asp "
-    },
-    {
-        "Title": "Table",
-        "HTML": "<table>\n  <caption>\n    Front-end web developer course 2021\n  </caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Person</th>\n      <th scope=\"col\">Most interest in</th>\n      <th scope=\"col\">Age</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">Chris</th>\n      <td>HTML tables</td>\n      <td>22</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Dennis</th>\n      <td>Web accessibility</td>\n      <td>45</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Sarah</th>\n      <td>JavaScript frameworks</td>\n      <td>29</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Karen</th>\n      <td>Web performance</td>\n      <td>36</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <th scope=\"row\" colspan=\"2\">Average age</th>\n      <td>33</td>\n    </tr>\n  </tfoot>\n</table>",
-        "CSS": "/* Table */ \ntable {\n  border-collapse: collapse;\n  border: 2px solid rgb(140 140 140);\n  font-family: sans-serif;\n  font-size: 0.8rem;\n  letter-spacing: 1px;\n}\n\ncaption {\n  caption-side: bottom;\n  padding: 10px;\n  font-weight: bold;\n}\n\nthead,\ntfoot {\n  background-color: rgb(228 240 245);\n}\n\nth,\ntd {\n  border: 1px solid rgb(160 160 160);\n  padding: 8px 10px;\n}\n\ntd:last-of-type {\n  text-align: center;\n}\n\ntbody > tr:nth-of-type(even) {\n  background-color: rgb(237 238 242);\n}\n\ntfoot th {\n  text-align: right;\n}\n\ntfoot td {\n  font-weight: bold;\n}",
+        "Title": "Table <table>",
+        "HTML": "<table>\n  <thead>\n    <tr>\n      <th colspan=\"2\">Title Row</th>\n    </tr>\n    <tr>\n      <th>Header Column 1</th>\n      <th>Header Column 2</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Row 1 Column 1</td>\n      <td>Row 1 Column 2</td>\n    </tr>\n    <tr>\n      <td>Row 2 Column 1</td>\n      <td>Row 2 Column 2</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <th colspan=\"2\">Footer Row</th>\n    </tr>\n  </tfoot>\n</table>",
+        "CSS": "/* Table */ \ntable {\n  border-collapse: collapse;\n  width: 100%;\n}\n\nth,\ntd {\n  border: 1px solid #ddd;\n  padding: 8px;\n  text-align: left;\n}\n\nthead th[colspan] {\n  background-color: #333;\n  color: white;\n  text-align: center;\n}\n\nthead th:not([colspan]) {\n  background-color: #f5f5f5;\n}\n\ntfoot {\n  background-color: #f5f5f5;\n  font-weight: bold;\n}\n\ntfoot th[colspan] {\n  text-align: center;\n}\n\ntbody tr:hover {\n  background-color: #f9f9f9;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table "
     },
     {
-        "Title": "Textarea",
-        "HTML": "<label for=\"story\">Tell us your story:</label>\n\n<textarea id=\"story\" name=\"story\" rows=\"5\" cols=\"33\">\nIt was a dark and stormy night...\n</textarea>",
-        "CSS": "/* Textarea */ \nlabel,\ntextarea {\n  font-size: 0.8rem;\n  letter-spacing: 1px;\n}\n\ntextarea {\n  padding: 10px;\n  max-width: 100%;\n  line-height: 1.5;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  box-shadow: 1px 1px 1px #999;\n}\n\nlabel {\n  display: block;\n  margin-bottom: 10px;\n}",
+        "Title": "Textarea <textarea>",
+        "HTML": "<textarea rows=\"5\" cols=\"33\" placeholder=\"Enter text here...\"></textarea>",
+        "CSS": "/* Textarea */ \ntextarea {\n  padding: 10px;\n  max-width: 100%;\n  line-height: 1.5;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  box-shadow: 1px 1px 1px #999;\n  font-size: 1rem;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea"
-    },
-    {
-        "Title": "Tfoot",
-        "HTML": "<table>\n  <caption>\n    Council budget (in £) 2018\n  </caption>\n  <thead>\n    <tr>\n      <th scope=\"col\">Items</th>\n      <th scope=\"col\">Expenditure</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th scope=\"row\">Donuts</th>\n      <td>3,000</td>\n    </tr>\n    <tr>\n      <th scope=\"row\">Stationery</th>\n      <td>18,000</td>\n    </tr>\n  </tbody>\n  <tfoot>\n    <tr>\n      <th scope=\"row\">Totals</th>\n      <td>21,000</td>\n    </tr>\n  </tfoot>\n</table>",
-        "CSS": "/* Tfoot */\nthead,\ntfoot {\n  background-color: #2c5e77;\n  color: #fff;\n}\n\ntbody {\n  background-color: #e4f0f5;\n}\n\ntable {\n  border-collapse: collapse;\n  border: 2px solid rgb(140 140 140);\n  font-family: sans-serif;\n  font-size: 0.8rem;\n  letter-spacing: 1px;\n}\n\ncaption {\n  caption-side: bottom;\n  padding: 10px;\n}\n\nth,\ntd {\n  border: 1px solid rgb(160 160 160);\n  padding: 8px 10px;\n}\n\ntd {\n  text-align: center;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot "
-    },
-    {
-        "Title": "Time",
-        "HTML": "<p>\n  The Cure will be celebrating their 40th anniversary on <time datetime=\"2018-07-07\">July 7</time> in London's Hyde\n  Park.\n</p>\n\n<p>\n  The concert starts at <time datetime=\"20:00\">20:00</time> and you'll be able to enjoy the band for at least\n  <time datetime=\"PT2H30M\">2h 30m</time>.\n</p>",
-        "CSS": "/* Time */ \ntime {\n  font-weight: bold;\n}",
-        "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time "
     }
 ]
