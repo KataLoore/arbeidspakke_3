@@ -61,10 +61,81 @@ class ComponentManager {
         // Clear existing content
         htmlContainer.innerHTML = '';
 
-        // Render each HTML component
+        // Categorize components
+        const inputComponents = [];
+        const listComponents = [];
+        const mediaComponents = [];
+        const otherComponents = [];
+
         this.components.forEach((item, index) => {
-            const element = this.createComponentElement(item, index);
-            htmlContainer.appendChild(element);
+            if (item.Title.toLowerCase().startsWith('input type')) {
+                inputComponents.push({ item, index });
+            } else if (item.Title.toLowerCase().startsWith('list ')) {
+                listComponents.push({ item, index });
+            } else if (item.Title.toLowerCase().includes('<audio>') || 
+                       item.Title.toLowerCase().includes('<video>') || 
+                       item.Title.toLowerCase().includes('<picture>')) {
+                mediaComponents.push({ item, index });
+            } else {
+                otherComponents.push({ item, index });
+            }
+        });
+
+        // Create a combined list for alphabetical ordering
+        const allItems = [];
+
+        // Add input subcategory as a special item
+        if (inputComponents.length > 0) {
+            allItems.push({
+                type: 'subcategory',
+                title: 'Input <input>',
+                sortKey: 'Input <input>',
+                subcategory: this.createSubcategoryDropdown('inputs', 'Input <input>', inputComponents)
+            });
+        }
+
+        // Add list subcategory as a special item
+        if (listComponents.length > 0) {
+            allItems.push({
+                type: 'subcategory',
+                title: 'List',
+                sortKey: 'List',
+                subcategory: this.createSubcategoryDropdown('lists', 'List', listComponents)
+            });
+        }
+
+        // Add media subcategory as a special item
+        if (mediaComponents.length > 0) {
+            allItems.push({
+                type: 'subcategory',
+                title: 'Media',
+                sortKey: 'Media',
+                subcategory: this.createSubcategoryDropdown('media', 'Media', mediaComponents)
+            });
+        }
+
+        // Add other components
+        otherComponents.forEach(({ item, index }) => {
+            allItems.push({
+                type: 'component',
+                title: item.Title,
+                sortKey: item.Title,
+                item: item,
+                index: index
+            });
+        });
+
+        // Sort alphabetically
+        allItems.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+
+        // Render in alphabetical order
+        allItems.forEach(item => {
+            if (item.type === 'subcategory') {
+                htmlContainer.appendChild(item.subcategory);
+            } else {
+                const element = this.createComponentElement(item.item, item.index);
+                htmlContainer.appendChild(element);
+            }
         });
 
         // Announce to screen readers
@@ -72,6 +143,51 @@ class ComponentManager {
         if (statusRegion) {
             statusRegion.textContent = `${this.components.length} HTML components loaded`;
         }
+    }
+
+    /**
+     * Create a subcategory dropdown
+     * @param {string} id - Subcategory ID
+     * @param {string} title - Subcategory title
+     * @param {Array} components - Array of components with item and index
+     * @returns {HTMLElement} Subcategory dropdown element
+     */
+    createSubcategoryDropdown(id, title, components) {
+        const subcategoryDiv = document.createElement('div');
+        subcategoryDiv.className = 'subcategory-dropdown';
+        subcategoryDiv.setAttribute('data-subcategory', id);
+
+        const header = document.createElement('button');
+        header.className = 'subcategory-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.setAttribute('aria-controls', `${id}-content`);
+
+        const icon = document.createElement('span');
+        icon.className = 'dropdown-icon';
+        icon.textContent = '▶';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'dropdown-title';
+        titleSpan.textContent = title;
+
+        header.appendChild(icon);
+        header.appendChild(titleSpan);
+
+        const content = document.createElement('div');
+        content.className = 'subcategory-content';
+        content.id = `${id}-content`;
+        content.setAttribute('role', 'group');
+
+        // Add components to subcategory
+        components.forEach(({ item, index }) => {
+            const element = this.createComponentElement(item, index);
+            content.appendChild(element);
+        });
+
+        subcategoryDiv.appendChild(header);
+        subcategoryDiv.appendChild(content);
+
+        return subcategoryDiv;
     }
 
     /**

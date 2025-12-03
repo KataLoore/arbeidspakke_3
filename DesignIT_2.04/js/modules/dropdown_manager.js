@@ -29,6 +29,13 @@ class DropdownManager {
                 const category = dropdown.dataset.category;
                 this.toggleDropdown(category);
             }
+            // Handle subcategory dropdown clicks
+            if (e.target.closest('.subcategory-header')) {
+                const header = e.target.closest('.subcategory-header');
+                const subcategory = header.closest('.subcategory-dropdown');
+                const subcategoryId = subcategory.dataset.subcategory;
+                this.toggleSubcategory(subcategoryId);
+            }
         });
 
         // Keyboard support
@@ -40,6 +47,16 @@ class DropdownManager {
                     const dropdown = header.closest('.category-dropdown');
                     const category = dropdown.dataset.category;
                     this.toggleDropdown(category);
+                }
+            }
+            // Handle subcategory keyboard support
+            if (e.target.closest('.subcategory-header')) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const header = e.target.closest('.subcategory-header');
+                    const subcategory = header.closest('.subcategory-dropdown');
+                    const subcategoryId = subcategory.dataset.subcategory;
+                    this.toggleSubcategory(subcategoryId);
                 }
             }
         });
@@ -158,6 +175,67 @@ class DropdownManager {
 
         container.insertAdjacentHTML('beforeend', dropdownHtml);
         this.dropdowns.set(category, expanded);
+    }
+
+    /**
+     * Toggle subcategory dropdown state
+     * @param {string} subcategoryId - Subcategory ID
+     */
+    toggleSubcategory(subcategoryId) {
+        const subcategory = document.querySelector(`[data-subcategory="${subcategoryId}"]`);
+        if (!subcategory) return;
+
+        const header = subcategory.querySelector('.subcategory-header');
+        const content = subcategory.querySelector('.subcategory-content');
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+            this.collapseSubcategory(subcategoryId);
+        } else {
+            this.expandSubcategory(subcategoryId);
+        }
+    }
+
+    /**
+     * Expand subcategory dropdown
+     * @param {string} subcategoryId - Subcategory ID
+     */
+    expandSubcategory(subcategoryId) {
+        const subcategory = document.querySelector(`[data-subcategory="${subcategoryId}"]`);
+        if (!subcategory) return;
+
+        const header = subcategory.querySelector('.subcategory-header');
+        const content = subcategory.querySelector('.subcategory-content');
+
+        header.setAttribute('aria-expanded', 'true');
+        content.classList.add('expanded');
+
+        // Announce to screen readers
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${subcategoryId} subcategory expanded`;
+        }
+    }
+
+    /**
+     * Collapse subcategory dropdown
+     * @param {string} subcategoryId - Subcategory ID
+     */
+    collapseSubcategory(subcategoryId) {
+        const subcategory = document.querySelector(`[data-subcategory="${subcategoryId}"]`);
+        if (!subcategory) return;
+
+        const header = subcategory.querySelector('.subcategory-header');
+        const content = subcategory.querySelector('.subcategory-content');
+
+        header.setAttribute('aria-expanded', 'false');
+        content.classList.remove('expanded');
+
+        // Announce to screen readers
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${subcategoryId} subcategory collapsed`;
+        }
     }
 }
 
