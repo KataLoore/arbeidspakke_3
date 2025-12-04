@@ -5,6 +5,8 @@ class ComponentManager {
     constructor(notificationManager) {
         this.notificationManager = notificationManager;
         this.components = [];
+        this.jsComponents = [];
+        this.apiComponents = [];
         this.dropdownManager = null;
         this.init();
     }
@@ -19,7 +21,11 @@ class ComponentManager {
             this.dropdownManager = new DropdownManager.default();
             
             await this.loadComponents();
+            await this.loadJSComponents();
+            await this.loadAPIComponents();
             this.renderComponents();
+            this.renderJSComponents();
+            this.renderAPIComponents();
         } catch (error) {
             console.error('Failed to initialize components:', error);
             throw error;
@@ -31,13 +37,45 @@ class ComponentManager {
      */
     async loadComponents() {
         try {
-            const response = await fetch('./data/components.json');
+            const response = await fetch('./data/html_components.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             this.components = await response.json();
         } catch (error) {
             console.error('Error loading components:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Load JavaScript components from JSON file
+     */
+    async loadJSComponents() {
+        try {
+            const response = await fetch('./data/js_components.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.jsComponents = await response.json();
+        } catch (error) {
+            console.error('Error loading JS components:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Load Web API components from JSON file
+     */
+    async loadAPIComponents() {
+        try {
+            const response = await fetch('./data/api_components.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.apiComponents = await response.json();
+        } catch (error) {
+            console.error('Error loading API components:', error);
             throw error;
         }
     }
@@ -146,10 +184,80 @@ class ComponentManager {
     }
 
     /**
+     * Render JavaScript components in dropdown structure
+     */
+    renderJSComponents() {
+        if (!this.dropdownManager) {
+            console.error('Dropdown manager not initialized');
+            return;
+        }
+
+        // Get the JavaScript elements dropdown content container
+        const jsContainer = this.dropdownManager.getContentContainer('javascript');
+        if (!jsContainer) {
+            console.error('JavaScript dropdown container not found');
+            return;
+        }
+
+        // Clear existing content
+        jsContainer.innerHTML = '';
+
+        // Render as flat list
+        const sortedComponents = [...this.jsComponents].sort((a, b) => 
+            a.Title.localeCompare(b.Title)
+        );
+
+        sortedComponents.forEach((item, index) => {
+            const element = this.createComponentElement(item, index, 'js');
+            jsContainer.appendChild(element);
+        });
+
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${this.jsComponents.length} JavaScript components loaded`;
+        }
+    }
+
+    /**
+     * Render Web API components in dropdown structure
+     */
+    renderAPIComponents() {
+        if (!this.dropdownManager) {
+            console.error('Dropdown manager not initialized');
+            return;
+        }
+
+        // Get the Web APIs dropdown content container
+        const apiContainer = this.dropdownManager.getContentContainer('webapis');
+        if (!apiContainer) {
+            console.error('Web APIs dropdown container not found');
+            return;
+        }
+
+        // Clear existing content
+        apiContainer.innerHTML = '';
+
+        // Render as flat list
+        const sortedComponents = [...this.apiComponents].sort((a, b) => 
+            a.Title.localeCompare(b.Title)
+        );
+
+        sortedComponents.forEach((item, index) => {
+            const element = this.createComponentElement(item, index, 'api');
+            apiContainer.appendChild(element);
+        });
+
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${this.apiComponents.length} Web API components loaded`;
+        }
+    }
+
+    /**
      * Create a subcategory dropdown
      * @param {string} id - Subcategory ID
      * @param {string} title - Subcategory title
-     * @param {Array} components - Array of components with item and index
+     * @param {Array} components - Array of components with item, index, and optional type
      * @returns {HTMLElement} Subcategory dropdown element
      */
     createSubcategoryDropdown(id, title, components) {
@@ -179,8 +287,8 @@ class ComponentManager {
         content.setAttribute('role', 'group');
 
         // Add components to subcategory
-        components.forEach(({ item, index }) => {
-            const element = this.createComponentElement(item, index);
+        components.forEach(({ item, index, type }) => {
+            const element = this.createComponentElement(item, index, type || 'html');
             content.appendChild(element);
         });
 
@@ -194,9 +302,10 @@ class ComponentManager {
      * Create a draggable component element
      * @param {Object} item - Component data
      * @param {number} index - Component index
+     * @param {string} type - Component type ('html' or 'js')
      * @returns {HTMLElement} Component element
      */
-    createComponentElement(item, index) {
+    createComponentElement(item, index, type = 'html') {
         const element = document.createElement('div');
         element.className = 'element';
         element.draggable = true;
@@ -204,10 +313,17 @@ class ComponentManager {
         element.setAttribute('data-css', item.CSS);
         element.setAttribute('data-reference', item.Reference);
         element.setAttribute('data-index', index);
+        element.setAttribute('data-type', type);
+        
+        // Add JS attribute if it's a JS component
+        if (item.JS) {
+            element.setAttribute('data-js', item.JS);
+        }
+        
         element.textContent = item.Title;
 
         // Add drag event listeners
-        this.addDragListeners(element, item);
+        this.addDragListeners(element, item, type);
 
         return element;
     }
@@ -216,15 +332,23 @@ class ComponentManager {
      * Add drag event listeners to element
      * @param {HTMLElement} element - Element to add listeners to
      * @param {Object} item - Component data
+     * @param {string} type - Component type ('html' or 'js')
      */
-    addDragListeners(element, item) {
+    addDragListeners(element, item, type = 'html') {
         element.addEventListener('dragstart', (e) => {
             const data = {
                 html: item.HTML,
                 css: item.CSS,
                 reference: item.Reference,
-                title: item.Title
+                title: item.Title,
+                type: type
             };
+            
+            // Add JS if it exists
+            if (item.JS) {
+                data.js = item.JS;
+            }
+            
             e.dataTransfer.setData('text/html', JSON.stringify(data));
             e.dataTransfer.effectAllowed = 'copy';
             
@@ -240,7 +364,7 @@ class ComponentManager {
         element.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                this.simulateDragDrop(item);
+                this.simulateDragDrop(item, type);
             }
         });
 
@@ -253,8 +377,9 @@ class ComponentManager {
     /**
      * Simulate drag and drop for keyboard users
      * @param {Object} item - Component data
+     * @param {string} type - Component type ('html' or 'js')
      */
-    simulateDragDrop(item) {
+    simulateDragDrop(item, type = 'html') {
         const canvas = document.getElementById('canvas');
         const canvasManager = window.DesignITApp?.getManager('canvas');
         
@@ -263,8 +388,15 @@ class ComponentManager {
                 html: item.HTML,
                 css: item.CSS,
                 reference: item.Reference,
-                title: item.Title
+                title: item.Title,
+                type: type
             };
+            
+            // Add JS if it exists
+            if (item.JS) {
+                data.js = item.JS;
+            }
+            
             canvasManager.addComponent(data);
         }
     }

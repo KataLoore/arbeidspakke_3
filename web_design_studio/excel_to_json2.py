@@ -33,7 +33,7 @@ class ExcelToJsonConverter:
     DEFAULT_CONFIG = {
         'excel_file': 'data/WebComponents (version 2025-02-04).xlsx',
         'sheet_name': 'Components',
-        'output_file': 'data/components.json',
+        'output_file': 'data/html_components.json',
         'required_columns': ['Title', 'HTML', 'CSS', 'Reference'],
         'encoding': 'utf-8'
     }
@@ -273,7 +273,7 @@ def main():
         config = {
             'excel_file': script_dir / 'data' / 'WebComponents (version 2025-02-04).xlsx',
             'sheet_name': 'Components',
-            'output_file': script_dir / 'data' / 'components.json',
+            'output_file': script_dir / 'data' / 'html_components.json',
             'required_columns': ['Title', 'HTML', 'CSS', 'Reference']
         }
         

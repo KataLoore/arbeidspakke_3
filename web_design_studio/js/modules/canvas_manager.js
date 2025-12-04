@@ -138,6 +138,11 @@ class CanvasManager {
 
         // Apply CSS
         this.applyComponentCSS(data.css);
+
+        // Execute JavaScript if present
+        if (data.js) {
+            this.executeComponentJS(data.js, componentWrapper);
+        }
     }
 
     /**
@@ -177,6 +182,7 @@ class CanvasManager {
         // Add data attributes for identification
         wrapper.setAttribute('data-component-title', data.title || 'Component');
         wrapper.setAttribute('data-component-css', data.css || '');
+        wrapper.setAttribute('data-component-js', data.js || '');
         wrapper.setAttribute('data-component-reference', data.reference || '');
         
         return wrapper;
@@ -219,8 +225,26 @@ class CanvasManager {
             }
         }
 
-        // Update Reference tab
-        const referenceTab = document.getElementById('tab3');
+        // Update JS/TS tab (if JS data exists)
+        if (data.js) {
+            const jsTab = document.getElementById('tab3');
+            if (jsTab) {
+                const preElement = jsTab.querySelector('pre');
+                if (preElement) {
+                    // Add spacing between components if there's already content
+                    if (preElement.textContent.trim()) {
+                        preElement.textContent += "\n\n";
+                    }
+                    preElement.textContent += data.js + "\n";
+                    
+                    // Update visibility after adding content
+                    this.updatePreElementVisibility(jsTab);
+                }
+            }
+        }
+
+        // Update Reference tab (now tab4)
+        const referenceTab = document.getElementById('tab4');
         if (referenceTab) {
             const divElement = referenceTab.querySelector('div');
             if (divElement) {
@@ -246,6 +270,26 @@ class CanvasManager {
 
                 divElement.appendChild(referenceEntry);
             }
+        }
+    }
+
+    /**
+     * Execute JavaScript code for a component
+     * @param {string} jsCode - JavaScript code to execute
+     * @param {HTMLElement} wrapper - Component wrapper element
+     */
+    executeComponentJS(jsCode, wrapper) {
+        try {
+            // Create a scoped function to execute the JS
+            // This allows the code to access elements within the component wrapper
+            const componentScope = wrapper.querySelector('.component-content');
+            
+            // Execute the code in a way that gives it access to the component's DOM
+            const executeInContext = new Function('componentRoot', jsCode);
+            executeInContext(componentScope);
+        } catch (error) {
+            console.error('Error executing component JavaScript:', error);
+            // Don't show notification for every component error, just log it
         }
     }
 
@@ -351,7 +395,7 @@ class CanvasManager {
      * Clear all tab contents
      */
     clearTabs() {
-        const tabs = ['tab1', 'tab2', 'tab3'];
+        const tabs = ['tab1', 'tab2', 'tab3', 'tab4'];
         tabs.forEach(tabId => {
             const tab = document.getElementById(tabId);
             if (tab) {
@@ -488,7 +532,8 @@ class CanvasManager {
         // Clear current tab contents
         const htmlTab = document.getElementById('tab1');
         const cssTab = document.getElementById('tab2');
-        const referenceTab = document.getElementById('tab3');
+        const jsTab = document.getElementById('tab3');
+        const referenceTab = document.getElementById('tab4');
 
         if (htmlTab) {
             const preElement = htmlTab.querySelector('pre');
@@ -499,6 +544,13 @@ class CanvasManager {
 
         if (cssTab) {
             const preElement = cssTab.querySelector('pre');
+            if (preElement) {
+                preElement.textContent = '';
+            }
+        }
+
+        if (jsTab) {
+            const preElement = jsTab.querySelector('pre');
             if (preElement) {
                 preElement.textContent = '';
             }
@@ -519,6 +571,7 @@ class CanvasManager {
             const contentContainer = wrapper.querySelector('.component-content');
             const html = contentContainer ? contentContainer.innerHTML : wrapper.innerHTML;
             const css = wrapper.getAttribute('data-component-css') || '';
+            const js = wrapper.getAttribute('data-component-js') || '';
             const reference = wrapper.getAttribute('data-component-reference') || '';
             const title = wrapper.getAttribute('data-component-title') || 'Component';
 
@@ -543,6 +596,18 @@ class CanvasManager {
                     }
                     preElement.textContent += css + "\n";
                     this.updatePreElementVisibility(cssTab);
+                }
+            }
+
+            // Update JS/TS tab
+            if (jsTab && js) {
+                const preElement = jsTab.querySelector('pre');
+                if (preElement) {
+                    if (preElement.textContent.trim()) {
+                        preElement.textContent += "\n\n";
+                    }
+                    preElement.textContent += js + "\n";
+                    this.updatePreElementVisibility(jsTab);
                 }
             }
 
