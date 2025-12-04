@@ -58,7 +58,41 @@ class CanvasManager {
                 this.canvas.insertBefore(draggedElement, afterElement);
             }
         } else {
+            // Dragging a new component from the elements list
             e.dataTransfer.dropEffect = 'copy';
+            
+            // Show insertion indicator
+            this.showInsertionIndicator(e.clientY);
+        }
+    }
+
+    /**
+     * Show visual indicator of where component will be inserted
+     * @param {number} y - Y coordinate of mouse
+     */
+    showInsertionIndicator(y) {
+        // Remove any existing indicator
+        this.removeInsertionIndicator();
+        
+        const afterElement = this.getDragAfterElement(y);
+        const indicator = document.createElement('div');
+        indicator.className = 'insertion-indicator';
+        indicator.style.cssText = 'height: 3px; background-color: #667eea; margin: 5px 0; border-radius: 2px; pointer-events: none;';
+        
+        if (afterElement == null) {
+            this.canvas.appendChild(indicator);
+        } else {
+            this.canvas.insertBefore(indicator, afterElement);
+        }
+    }
+
+    /**
+     * Remove insertion indicator
+     */
+    removeInsertionIndicator() {
+        const indicator = this.canvas.querySelector('.insertion-indicator');
+        if (indicator) {
+            indicator.remove();
         }
     }
 
@@ -79,6 +113,7 @@ class CanvasManager {
         // Only remove class if we're actually leaving the canvas
         if (!this.canvas.contains(e.relatedTarget)) {
             this.canvas.classList.remove('drag-over');
+            this.removeInsertionIndicator();
         }
     }
 
@@ -89,6 +124,7 @@ class CanvasManager {
     handleDrop(e) {
         e.preventDefault();
         this.canvas.classList.remove('drag-over');
+        this.removeInsertionIndicator();
 
         // Check if we're reordering an existing component
         const draggedElement = document.querySelector('.dragging');
@@ -110,7 +146,10 @@ class CanvasManager {
             }
 
             const data = JSON.parse(dataString);
-            this.addComponent(data);
+            
+            // Find the drop position
+            const afterElement = this.getDragAfterElement(e.clientY);
+            this.addComponent(data, afterElement);
 
         } catch (error) {
             console.error('Error handling drop:', error);
@@ -120,8 +159,9 @@ class CanvasManager {
     /**
      * Add component to canvas
      * @param {Object} data - Component data
+     * @param {HTMLElement|null} beforeElement - Element to insert before (null to append at end)
      */
-    addComponent(data) {
+    addComponent(data, beforeElement = null) {
         if (!this.canvas) return;
 
         // Save current state to history
@@ -131,10 +171,16 @@ class CanvasManager {
 
         // Add HTML to canvas
         const componentWrapper = this.createComponentWrapper(data);
-        this.canvas.appendChild(componentWrapper);
+        
+        // Insert at the appropriate position
+        if (beforeElement) {
+            this.canvas.insertBefore(componentWrapper, beforeElement);
+        } else {
+            this.canvas.appendChild(componentWrapper);
+        }
 
-        // Update tabs
-        this.updateTabs(data);
+        // Rebuild tabs to maintain correct order
+        this.rebuildTabs();
 
         // Apply CSS
         this.applyComponentCSS(data.css);
