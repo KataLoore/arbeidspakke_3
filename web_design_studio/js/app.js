@@ -145,7 +145,7 @@ class App {
      * Initialize pre element visibility on app load
      */
     initializePreElementVisibility() {
-        const tabs = ['tab1', 'tab2']; // Only HTML and CSS tabs have pre elements
+        const tabs = ['tab1', 'tab2', 'tab3']; // HTML, CSS, and JS/TS tabs have pre elements
         tabs.forEach(tabId => {
             const tab = document.getElementById(tabId);
             if (tab && this.managers.canvas) {

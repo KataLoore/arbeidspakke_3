@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/studio_style.css">
     <link rel="icon" href="./img/design_it_logo.png" type="image/png">
     <link rel="preload" href="./data/components.json" as="fetch" type="application/json" crossorigin>
+    <link rel="preload" href="./data/js_components.json" as="fetch" type="application/json" crossorigin>
 </head>
 
 <body>
@@ -56,7 +57,16 @@
                         <!-- HTML components will be loaded here -->
                     </div>
                 </div>
-                <!-- Future categories for JS and TS will be added here -->
+                <div class="category-dropdown" data-category="javascript">
+                    <button class="dropdown-header" aria-expanded="false" aria-controls="javascript-elements">
+                        <span class="dropdown-icon">▶</span>
+                        <span class="dropdown-title">JavaScript/TypeScript Elements</span>
+                    </button>
+                    <div class="dropdown-content" id="javascript-elements" role="group"
+                        aria-labelledby="javascript-dropdown">
+                        <!-- JavaScript/TypeScript components will be loaded here -->
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -94,6 +104,9 @@
                     CSS
                 </button>
                 <button class="tab" role="tab" aria-selected="false" aria-controls="tab3" id="tab-button-3">
+                    JS/TS
+                </button>
+                <button class="tab" role="tab" aria-selected="false" aria-controls="tab4" id="tab-button-4">
                     References
                 </button>
             </div>
@@ -109,6 +122,12 @@
             </div>
 
             <div id="tab3" class="tab-content" role="tabpanel" aria-labelledby="tab-button-3"
+                aria-label="JavaScript/TypeScript code">
+                <h3 class="sr-only">JavaScript/TypeScript Code</h3>
+                <pre aria-live="polite" aria-atomic="false"></pre>
+            </div>
+
+            <div id="tab4" class="tab-content" role="tabpanel" aria-labelledby="tab-button-4"
                 aria-label="Component references">
                 <h3 class="sr-only">Component References</h3>
                 <div aria-live="polite" aria-atomic="false">

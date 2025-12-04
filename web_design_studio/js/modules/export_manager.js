@@ -79,12 +79,17 @@ class ExportManager {
         // Get CSS from canvas styles
         const cssContent = this.extractCSSFromCanvas(canvas);
 
+        // Get JavaScript from tab3 if it exists
+        const jsTab = document.getElementById('tab3');
+        const jsContent = jsTab ? jsTab.querySelector('pre')?.textContent || '' : '';
+
         // Remove style elements from content
         const contentWithoutStyle = canvasContent.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
 
         return {
             content: contentWithoutStyle,
             css: cssContent,
+            js: jsContent,
             timestamp: new Date().toISOString()
         };
     }
@@ -159,6 +164,10 @@ class ExportManager {
     <div class="exported-content">
         ${exportData.content}
     </div>
+    ${exportData.js && exportData.js.trim() ? `
+    <script>
+        ${exportData.js}
+    </script>` : ''}
 </body>
 </html>`;
 
@@ -202,6 +211,11 @@ class ExportManager {
             // Add CSS file if there's any CSS content
             if (exportData.css && exportData.css.trim()) {
                 zip.file('styles.css', exportData.css);
+            }
+            
+            // Add JavaScript file if there's any JS content
+            if (exportData.js && exportData.js.trim()) {
+                zip.file('script.js', exportData.js);
             }
             
             // Generate ZIP file
