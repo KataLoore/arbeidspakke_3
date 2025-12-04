@@ -6,6 +6,7 @@ class HistoryManager {
         this.canvasManager = canvasManager;
         this.notificationManager = notificationManager;
         this.history = [];
+        this.redoStack = [];
         this.maxHistorySize = 50;
         this.init();
     }
@@ -26,11 +27,19 @@ class HistoryManager {
             undoButton.addEventListener('click', () => this.undo());
         }
 
-        // Add keyboard shortcut for undo (Ctrl+Z)
+        const redoButton = document.getElementById('redo');
+        if (redoButton) {
+            redoButton.addEventListener('click', () => this.redo());
+        }
+
+        // Add keyboard shortcuts for undo (Ctrl+Z) and redo (Ctrl+Y or Ctrl+Shift+Z)
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'z' && !e.shiftKey) {
                 e.preventDefault();
                 this.undo();
+            } else if (e.ctrlKey && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+                e.preventDefault();
+                this.redo();
             }
         });
     }
@@ -53,12 +62,15 @@ class HistoryManager {
 
         this.history.push(state);
 
+        // Clear redo stack when a new action is performed
+        this.redoStack = [];
+
         // Limit history size
         if (this.history.length > this.maxHistorySize) {
             this.history.shift();
         }
 
-        this.updateUndoButton();
+        this.updateButtons();
     }
 
     /**
@@ -155,10 +167,23 @@ class HistoryManager {
             return;
         }
 
-        const lastState = this.history.pop();
         const canvas = document.getElementById('canvas');
+        if (!canvas) return;
 
-        if (canvas && lastState) {
+        // Save current state to redo stack before undoing
+        const currentState = {
+            canvasContent: canvas.innerHTML,
+            tab1Content: this.getTabContent('tab1'),
+            tab2Content: this.getTabContent('tab2'),
+            tab3Content: this.getTabContent('tab3'),
+            tab3Structure: this.getTabStructure('tab3'),
+            timestamp: Date.now()
+        };
+        this.redoStack.push(currentState);
+
+        const lastState = this.history.pop();
+
+        if (lastState) {
             // Restore canvas content
             canvas.innerHTML = lastState.canvasContent;
 
@@ -173,19 +198,69 @@ class HistoryManager {
             }
         }
 
-        this.updateUndoButton();
+        this.updateButtons();
     }
 
     /**
-     * Update undo button state
+     * Redo the last undone action
      */
-    updateUndoButton() {
+    redo() {
+        if (this.redoStack.length === 0) {
+            return;
+        }
+
+        const canvas = document.getElementById('canvas');
+        if (!canvas) return;
+
+        // Save current state to history before redoing
+        const currentState = {
+            canvasContent: canvas.innerHTML,
+            tab1Content: this.getTabContent('tab1'),
+            tab2Content: this.getTabContent('tab2'),
+            tab3Content: this.getTabContent('tab3'),
+            tab3Structure: this.getTabStructure('tab3'),
+            timestamp: Date.now()
+        };
+        this.history.push(currentState);
+
+        const redoState = this.redoStack.pop();
+
+        if (redoState) {
+            // Restore canvas content
+            canvas.innerHTML = redoState.canvasContent;
+
+            // Restore tab contents
+            this.setTabContent('tab1', redoState.tab1Content);
+            this.setTabContent('tab2', redoState.tab2Content);
+            this.setTabContent('tab3', redoState.tab3Content);
+            
+            // Restore tab3 structure (references) if available
+            if (redoState.tab3Structure !== undefined) {
+                this.setTabStructure('tab3', redoState.tab3Structure);
+            }
+        }
+
+        this.updateButtons();
+    }
+
+    /**
+     * Update undo and redo button states
+     */
+    updateButtons() {
         const undoButton = document.getElementById('undo');
         if (undoButton) {
             undoButton.disabled = this.history.length === 0;
             undoButton.title = this.history.length === 0 
                 ? 'Nothing to undo' 
                 : `Undo (${this.history.length} actions available)`;
+        }
+
+        const redoButton = document.getElementById('redo');
+        if (redoButton) {
+            redoButton.disabled = this.redoStack.length === 0;
+            redoButton.title = this.redoStack.length === 0 
+                ? 'Nothing to redo' 
+                : `Redo (${this.redoStack.length} actions available)`;
         }
     }
 
@@ -194,7 +269,8 @@ class HistoryManager {
      */
     clearHistory() {
         this.history = [];
-        this.updateUndoButton();
+        this.redoStack = [];
+        this.updateButtons();
     }
 
     /**

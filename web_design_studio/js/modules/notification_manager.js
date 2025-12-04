@@ -4,7 +4,7 @@
 class NotificationManager {
     constructor() {
         this.activeNotification = null;
-        this.notificationsEnabled = false; // Set to false to disable all notifications
+        this.notificationsEnabled = true; // Enable notifications
     }
 
     /**

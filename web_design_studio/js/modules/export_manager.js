@@ -34,21 +34,32 @@ class ExportManager {
     }
 
     /**
-     * Export the current design
+     * Export the current design as ZIP file
      */
-    exportDesign() {
+    async exportDesign() {
         try {
-            const exportData = this.generateExportData();
+            // Check if canvas has any components
+            const canvas = document.getElementById('canvas');
+            const components = canvas.querySelectorAll('.component-wrapper');
             
-            if (!exportData.content.trim()) {
+            if (components.length === 0) {
+                this.notificationManager.showInfo('Nothing to export. Add components to the canvas first.');
                 return;
             }
 
-            const fullHTML = this.generateFullHTML(exportData);
-            this.openInNewTab(fullHTML);
+            const exportData = this.generateExportData();
+            
+            if (!exportData.content.trim()) {
+                this.notificationManager.showInfo('Nothing to export. Add components to the canvas first.');
+                return;
+            }
+
+            await this.downloadAsZip(exportData);
+            this.notificationManager.showSuccess('Design exported successfully!');
 
         } catch (error) {
             console.error('Export failed:', error);
+            this.notificationManager.showError('Export failed. Please try again.');
         }
     }
 
@@ -176,7 +187,46 @@ class ExportManager {
     }
 
     /**
-     * Download as file (fallback for popup blockers)
+     * Download as ZIP file containing HTML and CSS
+     * @param {Object} exportData - Export data with content and CSS
+     */
+    async downloadAsZip(exportData) {
+        // Use JSZip if available, otherwise fall back to manual ZIP creation
+        if (typeof JSZip !== 'undefined') {
+            const zip = new JSZip();
+            
+            // Add HTML file
+            const htmlContent = this.generateFullHTML(exportData);
+            zip.file('index.html', htmlContent);
+            
+            // Add CSS file if there's any CSS content
+            if (exportData.css && exportData.css.trim()) {
+                zip.file('styles.css', exportData.css);
+            }
+            
+            // Generate ZIP file
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            
+            // Download the ZIP file
+            const url = URL.createObjectURL(zipBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `design-export-${this.formatDateForFilename(new Date())}.zip`;
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            URL.revokeObjectURL(url);
+        } else {
+            // Fallback: download HTML file only
+            const htmlContent = this.generateFullHTML(exportData);
+            this.downloadAsFile(htmlContent);
+        }
+    }
+
+    /**
+     * Download as file (fallback for popup blockers or when JSZip is not available)
      * @param {string} htmlContent - HTML content to download
      */
     downloadAsFile(htmlContent) {

@@ -199,8 +199,8 @@
     },
     {
         "Title": "Navigation section <nav>",
-        "HTML": "<nav>\n  <a href=\"#home\">Home</a>\n  <a href=\"#about\">About</a>\n  <a href=\"#services\">Services</a>\n  <a href=\"#contact\">Contact</a>\n</nav>",
-        "CSS": "/* Nav */\nnav {\n  display: flex;\n  gap: 1.5rem;\n  padding: 1rem;\n  background-color: #f5f5f5;\n}\n\nnav a {\n  color: #333;\n  text-decoration: none;\n  font-weight: 500;\n  transition: color 0.3s;\n}\n\nnav a:hover {\n  color: #667eea;\n}",
+        "HTML": "<nav class=\"component-nav\">\n  <a href=\"#home\">Home</a>\n  <a href=\"#about\">About</a>\n  <a href=\"#services\">Services</a>\n  <a href=\"#contact\">Contact</a>\n</nav>",
+        "CSS": "/* Nav */\nnav.component-nav {\n  display: flex;\n  gap: 1.5rem;\n  padding: 1rem;\n  background-color: #f5f5f5;\n}\n\nnav.component-nav a {\n  color: #333;\n  text-decoration: none;\n  font-weight: 500;\n  transition: color 0.3s;\n}\n\nnav.component-nav a:hover {\n  color: #667eea;\n}",
         "Reference": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav "
     },
     {

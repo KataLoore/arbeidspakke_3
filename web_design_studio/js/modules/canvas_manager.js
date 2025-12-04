@@ -32,6 +32,10 @@ class CanvasManager {
         this.canvas.addEventListener('drop', (e) => this.handleDrop(e));
         this.canvas.addEventListener('dragenter', (e) => this.handleDragEnter(e));
         this.canvas.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+        
+        // Add listener for reordering existing components
+        this.canvas.addEventListener('dragstart', (e) => this.handleReorderDragStart(e));
+        this.canvas.addEventListener('dragend', (e) => this.handleReorderDragEnd(e));
     }
 
     /**
@@ -40,7 +44,22 @@ class CanvasManager {
      */
     handleDragOver(e) {
         e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
+        
+        // Check if we're dragging an existing component for reordering
+        const draggedElement = document.querySelector('.dragging');
+        if (draggedElement && draggedElement.classList.contains('component-wrapper')) {
+            e.dataTransfer.dropEffect = 'move';
+            
+            // Find the drop target position
+            const afterElement = this.getDragAfterElement(e.clientY);
+            if (afterElement == null) {
+                this.canvas.appendChild(draggedElement);
+            } else {
+                this.canvas.insertBefore(draggedElement, afterElement);
+            }
+        } else {
+            e.dataTransfer.dropEffect = 'copy';
+        }
     }
 
     /**
@@ -71,6 +90,19 @@ class CanvasManager {
         e.preventDefault();
         this.canvas.classList.remove('drag-over');
 
+        // Check if we're reordering an existing component
+        const draggedElement = document.querySelector('.dragging');
+        if (draggedElement && draggedElement.classList.contains('component-wrapper')) {
+            // Save state after reordering
+            if (this.historyManager) {
+                this.historyManager.saveState();
+            }
+            // Rebuild the HTML and CSS tabs based on new order
+            this.rebuildTabs();
+            return;
+        }
+
+        // Otherwise, handle as new component drop
         try {
             const dataString = e.dataTransfer.getData('text/html');
             if (!dataString) {
@@ -116,10 +148,36 @@ class CanvasManager {
     createComponentWrapper(data) {
         const wrapper = document.createElement('div');
         wrapper.className = 'component-wrapper';
-        wrapper.innerHTML = data.html;
+        
+        // Create delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'component-delete-btn';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.setAttribute('aria-label', 'Delete component');
+        deleteBtn.setAttribute('title', 'Delete this component');
+        deleteBtn.type = 'button';
+        
+        // Add click handler for delete button
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.removeComponent(wrapper);
+        });
+        
+        // Create content container
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'component-content';
+        contentContainer.innerHTML = data.html;
+        
+        wrapper.appendChild(deleteBtn);
+        wrapper.appendChild(contentContainer);
+        
+        // Make the wrapper draggable for reordering
+        wrapper.draggable = true;
         
         // Add data attributes for identification
         wrapper.setAttribute('data-component-title', data.title || 'Component');
+        wrapper.setAttribute('data-component-css', data.css || '');
+        wrapper.setAttribute('data-component-reference', data.reference || '');
         
         return wrapper;
     }
@@ -358,6 +416,161 @@ class CanvasManager {
         if (!this.canvas) return;
         
         this.canvas.innerHTML = content;
+    }
+
+    /**
+     * Handle drag start for reordering existing components
+     * @param {DragEvent} e - Drag event
+     */
+    handleReorderDragStart(e) {
+        const target = e.target.closest('.component-wrapper');
+        if (!target) return;
+
+        target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', 'reorder'); // Set some data for Firefox
+    }
+
+    /**
+     * Handle drag end for reordering
+     * @param {DragEvent} e - Drag event
+     */
+    handleReorderDragEnd(e) {
+        const target = e.target.closest('.component-wrapper');
+        if (!target) return;
+
+        target.classList.remove('dragging');
+    }
+
+    /**
+     * Get the element that the dragged item should be inserted before
+     * @param {number} y - Y coordinate of mouse
+     * @returns {HTMLElement|null} Element to insert before, or null if at end
+     */
+    getDragAfterElement(y) {
+        const draggableElements = [...this.canvas.querySelectorAll('.component-wrapper:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    /**
+     * Remove a component from the canvas
+     * @param {HTMLElement} wrapper - Component wrapper to remove
+     */
+    removeComponent(wrapper) {
+        if (!wrapper || !this.canvas) return;
+
+        // Save current state to history before removing
+        if (this.historyManager) {
+            this.historyManager.saveState();
+        }
+
+        // Remove the component
+        wrapper.remove();
+
+        // Rebuild tabs to reflect the removal
+        this.rebuildTabs();
+    }
+
+    /**
+     * Rebuild tabs based on current canvas order
+     */
+    rebuildTabs() {
+        // Clear current tab contents
+        const htmlTab = document.getElementById('tab1');
+        const cssTab = document.getElementById('tab2');
+        const referenceTab = document.getElementById('tab3');
+
+        if (htmlTab) {
+            const preElement = htmlTab.querySelector('pre');
+            if (preElement) {
+                preElement.textContent = '';
+            }
+        }
+
+        if (cssTab) {
+            const preElement = cssTab.querySelector('pre');
+            if (preElement) {
+                preElement.textContent = '';
+            }
+        }
+
+        if (referenceTab) {
+            const divElement = referenceTab.querySelector('div');
+            if (divElement) {
+                divElement.innerHTML = '';
+            }
+        }
+
+        // Get all component wrappers in current order
+        const components = this.canvas.querySelectorAll('.component-wrapper');
+        
+        components.forEach((wrapper) => {
+            // Get HTML from the content container, not the wrapper (to exclude delete button)
+            const contentContainer = wrapper.querySelector('.component-content');
+            const html = contentContainer ? contentContainer.innerHTML : wrapper.innerHTML;
+            const css = wrapper.getAttribute('data-component-css') || '';
+            const reference = wrapper.getAttribute('data-component-reference') || '';
+            const title = wrapper.getAttribute('data-component-title') || 'Component';
+
+            // Update HTML tab
+            if (htmlTab) {
+                const preElement = htmlTab.querySelector('pre');
+                if (preElement) {
+                    if (preElement.textContent.trim()) {
+                        preElement.textContent += "\n\n";
+                    }
+                    preElement.textContent += html + "\n";
+                    this.updatePreElementVisibility(htmlTab);
+                }
+            }
+
+            // Update CSS tab
+            if (cssTab && css) {
+                const preElement = cssTab.querySelector('pre');
+                if (preElement) {
+                    if (preElement.textContent.trim()) {
+                        preElement.textContent += "\n\n";
+                    }
+                    preElement.textContent += css + "\n";
+                    this.updatePreElementVisibility(cssTab);
+                }
+            }
+
+            // Update Reference tab
+            if (referenceTab && reference) {
+                const divElement = referenceTab.querySelector('div');
+                if (divElement) {
+                    const referenceEntry = document.createElement('div');
+                    referenceEntry.className = 'reference-entry';
+                    referenceEntry.style.marginBottom = '1rem';
+                    referenceEntry.style.paddingBottom = '0.5rem';
+                    referenceEntry.style.borderBottom = '1px solid #e0e0e0';
+
+                    const label = document.createElement('h4');
+                    label.textContent = title;
+                    label.style.margin = '0 0 0.5rem 0';
+                    label.style.fontSize = '14px';
+                    label.style.fontWeight = 'bold';
+                    label.style.color = '#333';
+                    referenceEntry.appendChild(label);
+
+                    const referenceContent = this.createClickableReference(reference);
+                    referenceEntry.appendChild(referenceContent);
+
+                    divElement.appendChild(referenceEntry);
+                }
+            }
+        });
     }
 }
 

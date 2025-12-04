@@ -123,8 +123,8 @@ h1, h2, h3, h4, h5, h6 {
     gap: 0;
 }
 
-.nav-links a,
-.nav-links button {
+.top-navbar .nav-links a,
+.top-navbar .nav-links button {
     color: var(--text-light);
     text-decoration: none;
     padding: var(--spacing-md) var(--spacing-lg);
@@ -139,17 +139,17 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 2px;
 }
 
-.nav-links a:hover,
-.nav-links button:hover {
+.top-navbar .nav-links a:hover,
+.top-navbar .nav-links button:hover {
     background-color: var(--primary-hover);
 }
 
-.nav-links button:disabled {
+.top-navbar .nav-links button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.nav-links button:disabled:hover {
+.top-navbar .nav-links button:disabled:hover {
     background-color: transparent;
 }
 
@@ -467,6 +467,63 @@ h1, h2, h3, h4, h5, h6 {
     border-left: 3px solid var(--secondary-color);
     background-color: rgba(0, 120, 204, 0.05);
     border-radius: var(--border-radius);
+    cursor: move;
+    cursor: grab;
+    transition: opacity var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+    position: relative;
+}
+
+.component-wrapper:hover {
+    background-color: rgba(0, 120, 204, 0.15);
+    border-left-color: #005fa3;
+}
+
+.component-wrapper:active {
+    cursor: grabbing;
+}
+
+.component-wrapper.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.component-content {
+    width: 100%;
+}
+
+.component-delete-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    color: #87CEEB;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+    z-index: 10;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.component-wrapper:hover .component-delete-btn {
+    opacity: 1;
+}
+
+.component-delete-btn:hover {
+    color: var(--secondary-color);
+}
+
+.component-delete-btn:active {
+    color: #005fa3;
 }
 
 /* Canvas content styles */
@@ -518,15 +575,18 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     font-family: var(--font-family);
     transition: all var(--transition-fast);
-    min-width: var(--spacing-xxl);
+    width: 50px;
+    min-width: 50px;
     max-width: 50px;
-    height: auto;
+    height: 40px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-sm);
     flex: 0 0 auto;
     margin-right: 2px;
+    box-sizing: border-box;
 }
 
 .copy-btn:hover {
@@ -553,13 +613,16 @@ h1, h2, h3, h4, h5, h6 {
     transition: background-color var(--transition-fast);
     border: none;
     border-bottom: 3px solid transparent;
+    border-radius: 0;
     font-family: var(--font-family);
     font-size: 14px;
     font-weight: normal;
     min-width: 0;
+    min-height: 40px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    box-sizing: border-box;
 }
 
 .tab:hover {
