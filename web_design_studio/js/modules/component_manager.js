@@ -6,6 +6,7 @@ class ComponentManager {
         this.notificationManager = notificationManager;
         this.components = [];
         this.jsComponents = [];
+        this.apiComponents = [];
         this.dropdownManager = null;
         this.init();
     }
@@ -21,8 +22,10 @@ class ComponentManager {
             
             await this.loadComponents();
             await this.loadJSComponents();
+            await this.loadAPIComponents();
             this.renderComponents();
             this.renderJSComponents();
+            this.renderAPIComponents();
         } catch (error) {
             console.error('Failed to initialize components:', error);
             throw error;
@@ -34,7 +37,7 @@ class ComponentManager {
      */
     async loadComponents() {
         try {
-            const response = await fetch('./data/components.json');
+            const response = await fetch('./data/html_components.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -46,7 +49,7 @@ class ComponentManager {
     }
 
     /**
-     * Load JavaScript/TypeScript components from JSON file
+     * Load JavaScript components from JSON file
      */
     async loadJSComponents() {
         try {
@@ -57,6 +60,22 @@ class ComponentManager {
             this.jsComponents = await response.json();
         } catch (error) {
             console.error('Error loading JS components:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Load Web API components from JSON file
+     */
+    async loadAPIComponents() {
+        try {
+            const response = await fetch('./data/api_components.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.apiComponents = await response.json();
+        } catch (error) {
+            console.error('Error loading API components:', error);
             throw error;
         }
     }
@@ -165,7 +184,7 @@ class ComponentManager {
     }
 
     /**
-     * Render JavaScript/TypeScript components in dropdown structure
+     * Render JavaScript components in dropdown structure
      */
     renderJSComponents() {
         if (!this.dropdownManager) {
@@ -183,48 +202,54 @@ class ComponentManager {
         // Clear existing content
         jsContainer.innerHTML = '';
 
-        // Check if jsComponents is an object with categories
-        if (typeof this.jsComponents === 'object' && !Array.isArray(this.jsComponents)) {
-            // Render as nested categories
-            const categories = Object.keys(this.jsComponents).sort();
-            
-            categories.forEach(category => {
-                const components = this.jsComponents[category];
-                
-                // Create subcategory dropdown
-                const subcategoryDiv = this.createSubcategoryDropdown(
-                    category.toLowerCase().replace(/\s+/g, '-'),
-                    category,
-                    components.map((item, index) => ({ item, index, type: 'js' }))
-                );
-                
-                jsContainer.appendChild(subcategoryDiv);
-            });
+        // Render as flat list
+        const sortedComponents = [...this.jsComponents].sort((a, b) => 
+            a.Title.localeCompare(b.Title)
+        );
 
-            // Count total components
-            const totalComponents = Object.values(this.jsComponents)
-                .reduce((sum, arr) => sum + arr.length, 0);
+        sortedComponents.forEach((item, index) => {
+            const element = this.createComponentElement(item, index, 'js');
+            jsContainer.appendChild(element);
+        });
 
-            // Announce to screen readers
-            const statusRegion = document.getElementById('status-region');
-            if (statusRegion) {
-                statusRegion.textContent = `${totalComponents} JavaScript/TypeScript components loaded`;
-            }
-        } else {
-            // Legacy: Render as flat list (for backwards compatibility)
-            const sortedComponents = [...this.jsComponents].sort((a, b) => 
-                a.Title.localeCompare(b.Title)
-            );
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${this.jsComponents.length} JavaScript components loaded`;
+        }
+    }
 
-            sortedComponents.forEach((item, index) => {
-                const element = this.createComponentElement(item, index, 'js');
-                jsContainer.appendChild(element);
-            });
+    /**
+     * Render Web API components in dropdown structure
+     */
+    renderAPIComponents() {
+        if (!this.dropdownManager) {
+            console.error('Dropdown manager not initialized');
+            return;
+        }
 
-            const statusRegion = document.getElementById('status-region');
-            if (statusRegion) {
-                statusRegion.textContent = `${this.jsComponents.length} JavaScript/TypeScript components loaded`;
-            }
+        // Get the Web APIs dropdown content container
+        const apiContainer = this.dropdownManager.getContentContainer('webapis');
+        if (!apiContainer) {
+            console.error('Web APIs dropdown container not found');
+            return;
+        }
+
+        // Clear existing content
+        apiContainer.innerHTML = '';
+
+        // Render as flat list
+        const sortedComponents = [...this.apiComponents].sort((a, b) => 
+            a.Title.localeCompare(b.Title)
+        );
+
+        sortedComponents.forEach((item, index) => {
+            const element = this.createComponentElement(item, index, 'api');
+            apiContainer.appendChild(element);
+        });
+
+        const statusRegion = document.getElementById('status-region');
+        if (statusRegion) {
+            statusRegion.textContent = `${this.apiComponents.length} Web API components loaded`;
         }
     }
 
